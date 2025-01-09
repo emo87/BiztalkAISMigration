@@ -1,0 +1,5 @@
+C:\Users\emilio.marino\source\repos\BiztlakAISMigration\BiztlakAISMigration\bin\Debug\BiztlakAISMigration.dll
+C:\Users\emilio.marino\source\repos\BiztlakAISMigration\BiztlakAISMigration\bin\Debug\BiztlakAISMigration.pdb
+C:\Users\emilio.marino\source\repos\BiztlakAISMigration\BiztlakAISMigration\obj\Debug\BiztlakAISMigration.btproj.CoreCompileInputs.cache
+C:\Users\emilio.marino\source\repos\BiztlakAISMigration\BiztlakAISMigration\obj\Debug\BiztlakAISMigration.dll
+C:\Users\emilio.marino\source\repos\BiztlakAISMigration\BiztlakAISMigration\obj\Debug\BiztlakAISMigration.pdb

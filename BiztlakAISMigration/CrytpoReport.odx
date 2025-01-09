@@ -1,0 +1,321 @@
+﻿#if __DESIGNER_DATA
+#error Do not define __DESIGNER_DATA.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<om:MetaModel MajorVersion="1" MinorVersion="3" Core="2b131234-7959-458d-834f-2dc0769ce683" ScheduleModel="66366196-361d-448d-976f-cab5e87496d2" xmlns:om="http://schemas.microsoft.com/BizTalk/2003/DesignerData">
+    <om:Element Type="Module" OID="f196eb56-d559-40e2-92f3-8c48a0be679a" LowerBound="1.1" HigherBound="74.1">
+        <om:Property Name="ReportToAnalyst" Value="True" />
+        <om:Property Name="Name" Value="BiztlakAISMigration" />
+        <om:Property Name="Signal" Value="False" />
+        <om:Element Type="PortType" OID="97ee1a60-251f-4711-996a-abab83caf587" ParentLink="Module_PortType" LowerBound="4.1" HigherBound="11.1">
+            <om:Property Name="Synchronous" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="PortType_1" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="2ac12c45-7545-4e68-b3f5-f41aa193fe6c" ParentLink="PortType_OperationDeclaration" LowerBound="6.1" HigherBound="10.1">
+                <om:Property Name="OperationType" Value="OneWay" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Operation_1" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="MessageRef" OID="41d87a46-d855-4ab5-9ffd-e5fce4f9152e" ParentLink="OperationDeclaration_RequestMessageRef" LowerBound="8.13" HigherBound="8.30">
+                    <om:Property Name="Ref" Value="BiztlakAISMigration.CryptoTransaction" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="PortType" OID="fa8cddb7-5960-442b-8713-e12567b7ad6c" ParentLink="Module_PortType" LowerBound="11.1" HigherBound="18.1">
+            <om:Property Name="Synchronous" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="PortType_2" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="eb219ed5-7674-4d1d-aa2b-5a89586376b0" ParentLink="PortType_OperationDeclaration" LowerBound="13.1" HigherBound="17.1">
+                <om:Property Name="OperationType" Value="OneWay" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Operation_1" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="MessageRef" OID="d8a01684-cfb2-4960-abb4-4550d9528602" ParentLink="OperationDeclaration_RequestMessageRef" LowerBound="15.13" HigherBound="15.29">
+                    <om:Property Name="Ref" Value="BiztlakAISMigration.BlockchainReport" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="PortType" OID="bf194714-5929-43e0-81db-c2c767142f32" ParentLink="Module_PortType" LowerBound="18.1" HigherBound="25.1">
+            <om:Property Name="Synchronous" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="PortType_3" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="OperationDeclaration" OID="5746fb0b-af56-4ea6-8911-0c8509fbecb5" ParentLink="PortType_OperationDeclaration" LowerBound="20.1" HigherBound="24.1">
+                <om:Property Name="OperationType" Value="OneWay" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Operation_1" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="MessageRef" OID="46211521-b5a7-4410-9561-09ac898c3907" ParentLink="OperationDeclaration_RequestMessageRef" LowerBound="22.13" HigherBound="22.19">
+                    <om:Property Name="Ref" Value="BiztlakAISMigration.Errors" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Request" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+            </om:Element>
+        </om:Element>
+        <om:Element Type="ServiceDeclaration" OID="8ee48202-9d23-48f6-b3d4-14155772c3a3" ParentLink="Module_ServiceDeclaration" LowerBound="25.1" HigherBound="73.1">
+            <om:Property Name="InitializedTransactionType" Value="False" />
+            <om:Property Name="IsInvokable" Value="False" />
+            <om:Property Name="TypeModifier" Value="Internal" />
+            <om:Property Name="ReportToAnalyst" Value="True" />
+            <om:Property Name="Name" Value="CrytpoReport" />
+            <om:Property Name="Signal" Value="False" />
+            <om:Element Type="ServiceBody" OID="a5bc611e-a08f-473a-bae6-fe871655fd41" ParentLink="ServiceDeclaration_ServiceBody">
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="Receive" OID="5c7bd00c-9f4e-40b8-a1c1-89415bfe6b8f" ParentLink="ServiceBody_Statement" LowerBound="39.1" HigherBound="41.1">
+                    <om:Property Name="Activate" Value="True" />
+                    <om:Property Name="PortName" Value="Port_1" />
+                    <om:Property Name="MessageName" Value="Crypto" />
+                    <om:Property Name="OperationName" Value="Operation_1" />
+                    <om:Property Name="OperationMessageName" Value="Request" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Receive_1" />
+                    <om:Property Name="Signal" Value="True" />
+                </om:Element>
+                <om:Element Type="Scope" OID="16dbf80d-74be-4719-b152-fe4fbd6b2f9a" ParentLink="ServiceBody_Statement" LowerBound="41.1" HigherBound="71.1">
+                    <om:Property Name="InitializedTransactionType" Value="True" />
+                    <om:Property Name="IsSynchronized" Value="False" />
+                    <om:Property Name="ReportToAnalyst" Value="True" />
+                    <om:Property Name="Name" Value="Scope_1" />
+                    <om:Property Name="Signal" Value="True" />
+                    <om:Element Type="Construct" OID="338e8a59-b4fb-4219-8189-0f57d6a8a150" ParentLink="ComplexStatement_Statement" LowerBound="46.1" HigherBound="52.1">
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="ConstructMessage_1" />
+                        <om:Property Name="Signal" Value="False" />
+                        <om:Element Type="Transform" OID="e67099ae-7d2a-4223-a3bc-f92b82372833" ParentLink="ComplexStatement_Statement" LowerBound="49.1" HigherBound="51.1">
+                            <om:Property Name="ClassName" Value="BiztlakAISMigration.CryptoTransaction2BlockchainReport" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Name" Value="Transform_1" />
+                            <om:Property Name="Signal" Value="True" />
+                            <om:Element Type="MessagePartRef" OID="0d13a552-f565-4b36-b550-420a403a0321" ParentLink="Transform_InputMessagePartRef" LowerBound="50.108" HigherBound="50.114">
+                                <om:Property Name="MessageRef" Value="Crypto" />
+                                <om:Property Name="ReportToAnalyst" Value="True" />
+                                <om:Property Name="Name" Value="MessagePartReference_1" />
+                                <om:Property Name="Signal" Value="False" />
+                            </om:Element>
+                            <om:Element Type="MessagePartRef" OID="e15a0c9c-3e15-49d1-bd6e-8463569f88b7" ParentLink="Transform_OutputMessagePartRef" LowerBound="50.36" HigherBound="50.48">
+                                <om:Property Name="MessageRef" Value="CryptoReport" />
+                                <om:Property Name="ReportToAnalyst" Value="True" />
+                                <om:Property Name="Name" Value="MessagePartReference_2" />
+                                <om:Property Name="Signal" Value="False" />
+                            </om:Element>
+                        </om:Element>
+                        <om:Element Type="MessageRef" OID="d802d832-455a-4305-8a88-b704d56f3f25" ParentLink="Construct_MessageRef" LowerBound="47.31" HigherBound="47.43">
+                            <om:Property Name="Ref" Value="CryptoReport" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Signal" Value="False" />
+                        </om:Element>
+                    </om:Element>
+                    <om:Element Type="Send" OID="00d2a679-775d-4c73-9549-5dbd3a3f2175" ParentLink="ComplexStatement_Statement" LowerBound="52.1" HigherBound="54.1">
+                        <om:Property Name="PortName" Value="Port_2" />
+                        <om:Property Name="MessageName" Value="CryptoReport" />
+                        <om:Property Name="OperationName" Value="Operation_1" />
+                        <om:Property Name="OperationMessageName" Value="Request" />
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="Send_1" />
+                        <om:Property Name="Signal" Value="True" />
+                    </om:Element>
+                    <om:Element Type="Catch" OID="fbe314f0-5308-4c65-ae9e-9ea4ff916094" ParentLink="Scope_Catch" LowerBound="57.1" HigherBound="69.1">
+                        <om:Property Name="ExceptionName" Value="sysex" />
+                        <om:Property Name="ExceptionType" Value="System.SystemException" />
+                        <om:Property Name="IsFaultMessage" Value="False" />
+                        <om:Property Name="ReportToAnalyst" Value="True" />
+                        <om:Property Name="Name" Value="CatchException_1" />
+                        <om:Property Name="Signal" Value="True" />
+                        <om:Element Type="Construct" OID="dbe2ae1f-c6ce-4450-8479-88fa4b3d572b" ParentLink="Catch_Statement" LowerBound="60.1" HigherBound="66.1">
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Name" Value="ConstructMessage_2" />
+                            <om:Property Name="Signal" Value="False" />
+                            <om:Element Type="Transform" OID="d0d60a8c-9b25-4380-88e7-4b7fb977cd09" ParentLink="ComplexStatement_Statement" LowerBound="63.1" HigherBound="65.1">
+                                <om:Property Name="ClassName" Value="BiztlakAISMigration.CryptoTransaction2Errors" />
+                                <om:Property Name="ReportToAnalyst" Value="True" />
+                                <om:Property Name="Name" Value="Transform_2" />
+                                <om:Property Name="Signal" Value="True" />
+                                <om:Element Type="MessagePartRef" OID="0155aa7a-5741-4576-9f1e-5b14a384844a" ParentLink="Transform_InputMessagePartRef" LowerBound="64.98" HigherBound="64.104">
+                                    <om:Property Name="MessageRef" Value="Crypto" />
+                                    <om:Property Name="ReportToAnalyst" Value="True" />
+                                    <om:Property Name="Name" Value="MessagePartReference_3" />
+                                    <om:Property Name="Signal" Value="False" />
+                                </om:Element>
+                                <om:Element Type="MessagePartRef" OID="26416456-d04d-4881-b5f8-76a6fba3137e" ParentLink="Transform_OutputMessagePartRef" LowerBound="64.40" HigherBound="64.48">
+                                    <om:Property Name="MessageRef" Value="ErrorMsg" />
+                                    <om:Property Name="ReportToAnalyst" Value="True" />
+                                    <om:Property Name="Name" Value="MessagePartReference_4" />
+                                    <om:Property Name="Signal" Value="False" />
+                                </om:Element>
+                            </om:Element>
+                            <om:Element Type="MessageRef" OID="8d961948-5a79-4f0e-a2a8-602154bbb962" ParentLink="Construct_MessageRef" LowerBound="61.35" HigherBound="61.43">
+                                <om:Property Name="Ref" Value="ErrorMsg" />
+                                <om:Property Name="ReportToAnalyst" Value="True" />
+                                <om:Property Name="Signal" Value="False" />
+                            </om:Element>
+                        </om:Element>
+                        <om:Element Type="Send" OID="5e6adb9f-c827-4c9a-9823-b838e28de992" ParentLink="Catch_Statement" LowerBound="66.1" HigherBound="68.1">
+                            <om:Property Name="PortName" Value="Errori" />
+                            <om:Property Name="MessageName" Value="ErrorMsg" />
+                            <om:Property Name="OperationName" Value="Operation_1" />
+                            <om:Property Name="OperationMessageName" Value="Request" />
+                            <om:Property Name="ReportToAnalyst" Value="True" />
+                            <om:Property Name="Name" Value="Send_2" />
+                            <om:Property Name="Signal" Value="True" />
+                        </om:Element>
+                    </om:Element>
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="a0eb0705-88ac-4e71-b400-bb603bd56801" ParentLink="ServiceDeclaration_PortDeclaration" LowerBound="28.1" HigherBound="30.1">
+                <om:Property Name="PortModifier" Value="Implements" />
+                <om:Property Name="Orientation" Value="Left" />
+                <om:Property Name="PortIndex" Value="-1" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="BiztlakAISMigration.PortType_1" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Port_1" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="LogicalBindingAttribute" OID="1ced4087-c0f8-41a0-b101-cc1deb287b9d" ParentLink="PortDeclaration_CLRAttribute" LowerBound="28.1" HigherBound="29.1">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="701312b1-333a-4b21-a783-792dd358f8a1" ParentLink="ServiceDeclaration_PortDeclaration" LowerBound="30.1" HigherBound="32.1">
+                <om:Property Name="PortModifier" Value="Uses" />
+                <om:Property Name="Orientation" Value="Right" />
+                <om:Property Name="PortIndex" Value="-1" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="BiztlakAISMigration.PortType_2" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Port_2" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="LogicalBindingAttribute" OID="28f727de-be9e-456e-a9db-fea7ad2c3f07" ParentLink="PortDeclaration_CLRAttribute" LowerBound="30.1" HigherBound="31.1">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="PortDeclaration" OID="c39ef945-12d5-469f-8ff7-d88822ce973f" ParentLink="ServiceDeclaration_PortDeclaration" LowerBound="32.1" HigherBound="34.1">
+                <om:Property Name="PortModifier" Value="Uses" />
+                <om:Property Name="Orientation" Value="Right" />
+                <om:Property Name="PortIndex" Value="17" />
+                <om:Property Name="IsWebPort" Value="False" />
+                <om:Property Name="OrderedDelivery" Value="False" />
+                <om:Property Name="DeliveryNotification" Value="None" />
+                <om:Property Name="Type" Value="BiztlakAISMigration.PortType_3" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Errori" />
+                <om:Property Name="Signal" Value="False" />
+                <om:Element Type="LogicalBindingAttribute" OID="9d8b7ed1-7310-4e07-baeb-759aebb6efbc" ParentLink="PortDeclaration_CLRAttribute" LowerBound="32.1" HigherBound="33.1">
+                    <om:Property Name="Signal" Value="False" />
+                </om:Element>
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="eeb396d0-8454-482e-9bbd-31e33fc0984f" ParentLink="ServiceDeclaration_MessageDeclaration" LowerBound="34.1" HigherBound="35.1">
+                <om:Property Name="Type" Value="BiztlakAISMigration.CryptoTransaction" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="Crypto" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="f3385918-6778-4f39-9cc8-d0f614f471ef" ParentLink="ServiceDeclaration_MessageDeclaration" LowerBound="35.1" HigherBound="36.1">
+                <om:Property Name="Type" Value="BiztlakAISMigration.BlockchainReport" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="CryptoReport" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+            <om:Element Type="MessageDeclaration" OID="1aa26cea-c05a-4ecd-a8bf-9c767774235b" ParentLink="ServiceDeclaration_MessageDeclaration" LowerBound="36.1" HigherBound="37.1">
+                <om:Property Name="Type" Value="BiztlakAISMigration.Errors" />
+                <om:Property Name="ParamDirection" Value="In" />
+                <om:Property Name="ReportToAnalyst" Value="True" />
+                <om:Property Name="Name" Value="ErrorMsg" />
+                <om:Property Name="Signal" Value="True" />
+            </om:Element>
+        </om:Element>
+    </om:Element>
+</om:MetaModel>
+#endif // __DESIGNER_DATA
+[Microsoft.XLANGs.BaseTypes.BPELExportable(false)]
+module BiztlakAISMigration
+{
+    internal porttype PortType_1
+    {
+        oneway Operation_1
+        {
+            CryptoTransaction
+        };
+    };
+    internal porttype PortType_2
+    {
+        oneway Operation_1
+        {
+            BlockchainReport
+        };
+    };
+    internal porttype PortType_3
+    {
+        oneway Operation_1
+        {
+            Errors
+        };
+    };
+    [Microsoft.XLANGs.BaseTypes.BPELExportable(false)]
+    internal service CrytpoReport
+    {
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port implements PortType_1 Port_1;
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port uses PortType_2 Port_2;
+        [Microsoft.XLANGs.BaseTypes.LogicalBinding()]
+        port uses PortType_3 Errori;
+        message CryptoTransaction Crypto;
+        message BlockchainReport CryptoReport;
+        message Errors ErrorMsg;
+        body ()
+        {
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("5c7bd00c-9f4e-40b8-a1c1-89415bfe6b8f")]
+            activate receive (Port_1.Operation_1, Crypto);
+            [Microsoft.XLANGs.BaseTypes.DesignerPosition("16dbf80d-74be-4719-b152-fe4fbd6b2f9a")]
+            scope
+            {
+                body
+                {
+                    [Microsoft.XLANGs.BaseTypes.DesignerPosition("338e8a59-b4fb-4219-8189-0f57d6a8a150")]
+                    construct CryptoReport
+                    {
+                        [Microsoft.XLANGs.BaseTypes.DesignerPosition("e67099ae-7d2a-4223-a3bc-f92b82372833")]
+                        transform (CryptoReport) = BiztlakAISMigration.CryptoTransaction2BlockchainReport (Crypto);
+                    }
+                    [Microsoft.XLANGs.BaseTypes.DesignerPosition("00d2a679-775d-4c73-9549-5dbd3a3f2175")]
+                    send (Port_2.Operation_1, CryptoReport);
+                }
+                exceptions
+                {
+                    [Microsoft.XLANGs.BaseTypes.DesignerPosition("fbe314f0-5308-4c65-ae9e-9ea4ff916094")]
+                    catch (System.SystemException sysex)
+                    {
+                        [Microsoft.XLANGs.BaseTypes.DesignerPosition("dbe2ae1f-c6ce-4450-8479-88fa4b3d572b")]
+                        construct ErrorMsg
+                        {
+                            [Microsoft.XLANGs.BaseTypes.DesignerPosition("d0d60a8c-9b25-4380-88e7-4b7fb977cd09")]
+                            transform (ErrorMsg) = BiztlakAISMigration.CryptoTransaction2Errors (Crypto);
+                        }
+                        [Microsoft.XLANGs.BaseTypes.DesignerPosition("5e6adb9f-c827-4c9a-9823-b838e28de992")]
+                        send (Errori.Operation_1, ErrorMsg);
+                    }
+                }
+            }
+        }
+    }
+}
+
