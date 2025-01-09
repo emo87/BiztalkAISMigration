@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Custom styles for this template -->
+    <!--<link href="offcanvas.css" rel="stylesheet">-->
+
+    <title>BizTalk to Azure Integration Services Migration Report</title>
+
+    <style>
+        html,
+        body {
+            overflow-x: hidden; /* Prevent scroll on narrow devices */
+        }
+
+        body {
+            padding-top: 56px;
+        }
+
+        @media (max-width: 767.98px) {
+            .offcanvas-collapse {
+                position: fixed;
+                top: 56px; /* Height of navbar */
+                bottom: 0;
+                width: 100%;
+                padding-right: 1rem;
+                padding-left: 1rem;
+                overflow-y: auto;
+                background-color: var(--gray-dark);
+                transition: -webkit-transform .3s ease-in-out;
+                transition: transform .3s ease-in-out;
+                transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
+                -webkit-transform: translateX(100%);
+                transform: translateX(100%);
+            }
+
+                .offcanvas-collapse.open {
+                    -webkit-transform: translateX(-1rem);
+                    transform: translateX(-1rem); /* Account for horizontal padding on navbar */
+                }
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+            .nav-scroller .nav {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                padding-bottom: 1rem;
+                margin-top: -1px;
+                overflow-x: auto;
+                color: rgba(255, 255, 255, .75);
+                text-align: center;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+
+        .nav-underline .nav-link {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            font-size: .875rem;
+            color: var(--secondary);
+        }
+
+            .nav-underline .nav-link:hover {
+                color: var(--blue);
+            }
+
+        .nav-underline .active {
+            font-weight: 500;
+            color: var(--gray-dark);
+        }
+
+        .text-white-50 {
+            color: rgba(255, 255, 255, .5);
+        }
+
+        .bg-purple {
+            background-color: var(--purple);
+        }
+
+        .border-bottom {
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .box-shadow {
+            box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+        }
+
+        .lh-100 {
+            line-height: 1;
+        }
+
+        .lh-125 {
+            line-height: 1.25;
+        }
+
+        .lh-150 {
+            line-height: 1.5;
+        }
+
+        .section-icon {
+            font-size: 48px;
+        }
+
+        .resource-icon {
+            font-size: 32px;
+        }
+
+        .analysis-icon {
+            font-size: 1rem;
+        }
+
+        .expand-apps:before {
+            content: "Expand Applications";
+        }
+
+        .expand-apps.active:before {
+            content: "Collapse Applications";
+        }
+
+        .expand-resources:before {
+            content: "Expand Resources";
+        }
+
+        .expand-resources.active:before {
+            content: "Collapse Resources";
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-primary">
+        <a class="navbar-brand" href="BizTalkMigrationReport.html" id="home-link">BizTalk Migration Report</a>
+        <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto" id="navbar-list">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Input BizTalk Applications</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01" id="source-application-dropdown"><a class="dropdown-item" href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html">BiztlakAIS</a></div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Output AIS Applications</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01" id="target-application-dropdown"><a class="dropdown-item" href="MessageBus-Message-Bus-c74235e5-45ef-42c0-8583-27575a44b8dd.html">Message Bus</a><a class="dropdown-item" href="Target-BiztlakAIS-f9ba4ac0-642c-4801-aa96-a271bce2fc9a.html">BiztlakAIS</a><a class="dropdown-item" href="Target-System-Application-8694a819-3112-44ac-b04e-6f58cf880cef.html">System Application</a></div>
+                </li>
+            <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Resources</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01" id="resources-dropdown"><a class="dropdown-item" href="#microsoft.biztalk.resource.application">BizTalk Application</a><a class="dropdown-item" href="#microsoft.biztalk.resource.map">BizTalk Map</a><a class="dropdown-item" href="#microsoft.biztalk.resource.documentschema">Document Schema</a><a class="dropdown-item" href="#microsoft.biztalk.resource.portdeclaration">Logical Port (Orchestration Port)</a><a class="dropdown-item" href="#microsoft.biztalk.resource.messagedeclaration">Message</a><a class="dropdown-item" href="#microsoft.biztalk.resource.messagetype">Message Type</a><a class="dropdown-item" href="#microsoft.biztalk.resource.module">Module</a><a class="dropdown-item" href="#microsoft.biztalk.resource.metamodel">Orchestration MetaModel (ODX)</a><a class="dropdown-item" href="#microsoft.biztalk.resource.porttype">Port Type</a><a class="dropdown-item" href="#microsoft.biztalk.resource.receivelocation">Receive Location</a><a class="dropdown-item" href="#microsoft.biztalk.resource.receiveport">Receive Port</a><a class="dropdown-item" href="#microsoft.biztalk.resource.sendport">Send Port</a><a class="dropdown-item" href="#microsoft.biztalk.resource.servicebinding">Service (Orchestration)</a><a class="dropdown-item" href="#microsoft.biztalk.resource.servicedeclaration">Service Declaration</a></div>
+                </li></ul>
+        </div>
+
+    </nav>
+
+    <main role="main" class="container">
+        <div id="report-content">
+            <!-- Report content is rendered in here. -->
+        <div><a name="application-c3df724e-d66a-40c0-89fa-e33a7bdaa1da"></a>
+	<div id="c3df724e-d66a-40c0-89fa-e33a7bdaa1da" class="application-container">
+		<div class="d-flex align-items-center p-2 my-3 text-white-50 bg-secondary rounded box-shadow">
+  			<i class="fas fa-poll-h text-white mr-2 ml-2 mb-2 section-icon"></i>
+			<div class="lh-100">
+				<h6 class="mb-1 text-white lh-100">BizTalk Application: BiztlakAIS</h6>
+				<small>BizTalk Application 1</small>
+			</div>
+  		</div>
+		
+  		<div class="my-3 pr-2 pb-2 bg-white rounded box-shadow multi-collapse-c3df724e-d66a-40c0-89fa-e33a7bdaa1da-application application-section application-less" id="application-c3df724e-d66a-40c0-89fa-e33a7bdaa1da-contents">
+
+  		<div><a name="microsoft.biztalk.resource.application"></a><h6 class="border-bottom border-gray pb-2 mb-0">BizTalk Application</h6></div><div><a name="resource-c3df724e-d66a-40c0-89fa-e33a7bdaa1da"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-cogs text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">BiztlakAIS</strong>
+		<a id="c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail-more" href="#c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail-more" data-toggle="collapse" data-target=".multi-collapse-c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail" class="collapse show multi-collapse-c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail" role="button" aria-expanded="true" aria-controls="c3df724e-d66a-40c0-89fa-e33a7bdaa1da c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail-more c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail-less">More</a>
+		<a id="c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail-less" href="#c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail-less" data-toggle="collapse" data-target=".multi-collapse-c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail" class="collapse multi-collapse-c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail" role="button" aria-expanded="false" aria-controls="c3df724e-d66a-40c0-89fa-e33a7bdaa1da c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail-more c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail-less">Less</a>
+	</div>
+	<span class="d-block">BizTalk Application 1</span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail border-bottom border-gray pb-2" id="multi-collapse-c3df724e-d66a-40c0-89fa-e33a7bdaa1da-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-e2437fa7-f345-4d57-bd81-b0d5972c088d" class="text-gray-dark"><strong>BizTalk Map (Child):</strong> CryptoTransaction2BlockchainReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-9f686951-726c-4530-b8da-5c2955406b3d" class="text-gray-dark"><strong>BizTalk Map (Child):</strong> CryptoTransaction2Errors</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-0b75e2f1-f62e-4730-b7e6-960acd859da4" class="text-gray-dark"><strong>Document Schema (Child):</strong> BlockchainReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-a5ded7c0-47c0-464f-b010-adba413c2bad" class="text-gray-dark"><strong>Document Schema (Child):</strong> CryptoTransaction</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-6414bf96-7da7-492d-a079-c98beac5e5c8" class="text-gray-dark"><strong>Document Schema (Child):</strong> Errors</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-e7f5b07d-eb34-4448-98ad-eb2badf0e39c" class="text-gray-dark"><strong>Orchestration MetaModel (ODX) (Child):</strong> CrytpoReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-af141380-2004-4f9f-b2c7-a691b96f6d63" class="text-gray-dark"><strong>Receive Port (Child):</strong> bizaaismigration_receive</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-a0825bb1-2a4e-4169-b64a-fedc8041c57e" class="text-gray-dark"><strong>Send Port (Child):</strong> ERROR</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-aaf19f75-c3f0-452f-9a6f-3916eafabe2a" class="text-gray-dark"><strong>Send Port (Child):</strong> SendPort5</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.map"></a><h6 class="border-bottom border-gray pb-2 mb-0">BizTalk Map</h6></div><div><a name="resource-e2437fa7-f345-4d57-bd81-b0d5972c088d"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fa fa-project-diagram text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">CryptoTransaction2BlockchainReport</strong>
+		<a id="e2437fa7-f345-4d57-bd81-b0d5972c088d-detail-more" href="#e2437fa7-f345-4d57-bd81-b0d5972c088d-detail-more" data-toggle="collapse" data-target=".multi-collapse-e2437fa7-f345-4d57-bd81-b0d5972c088d-detail" class="collapse show multi-collapse-e2437fa7-f345-4d57-bd81-b0d5972c088d-detail" role="button" aria-expanded="true" aria-controls="e2437fa7-f345-4d57-bd81-b0d5972c088d e2437fa7-f345-4d57-bd81-b0d5972c088d-detail-more e2437fa7-f345-4d57-bd81-b0d5972c088d-detail-less">More</a>
+		<a id="e2437fa7-f345-4d57-bd81-b0d5972c088d-detail-less" href="#e2437fa7-f345-4d57-bd81-b0d5972c088d-detail-less" data-toggle="collapse" data-target=".multi-collapse-e2437fa7-f345-4d57-bd81-b0d5972c088d-detail" class="collapse multi-collapse-e2437fa7-f345-4d57-bd81-b0d5972c088d-detail" role="button" aria-expanded="false" aria-controls="e2437fa7-f345-4d57-bd81-b0d5972c088d e2437fa7-f345-4d57-bd81-b0d5972c088d-detail-more e2437fa7-f345-4d57-bd81-b0d5972c088d-detail-less">Less</a>
+	</div>
+	<span class="d-block">BiztlakAISMigration.CryptoTransaction2BlockchainReport</span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-e2437fa7-f345-4d57-bd81-b0d5972c088d-detail border-bottom border-gray pb-2" id="multi-collapse-e2437fa7-f345-4d57-bd81-b0d5972c088d-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c3df724e-d66a-40c0-89fa-e33a7bdaa1da" class="text-gray-dark"><strong>BizTalk Application (Parent):</strong> BiztlakAIS</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-a5ded7c0-47c0-464f-b010-adba413c2bad" class="text-gray-dark"><strong>Document Schema (ReferencedBy):</strong> CryptoTransaction</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee" class="text-gray-dark"><strong>Service Declaration (ReferencedBy):</strong> CrytpoReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-0b75e2f1-f62e-4730-b7e6-960acd859da4" class="text-gray-dark"><strong>Document Schema (ReferencesTo):</strong> BlockchainReport</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="resource-9f686951-726c-4530-b8da-5c2955406b3d"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fa fa-project-diagram text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">CryptoTransaction2Errors</strong>
+		<a id="9f686951-726c-4530-b8da-5c2955406b3d-detail-more" href="#9f686951-726c-4530-b8da-5c2955406b3d-detail-more" data-toggle="collapse" data-target=".multi-collapse-9f686951-726c-4530-b8da-5c2955406b3d-detail" class="collapse show multi-collapse-9f686951-726c-4530-b8da-5c2955406b3d-detail" role="button" aria-expanded="true" aria-controls="9f686951-726c-4530-b8da-5c2955406b3d 9f686951-726c-4530-b8da-5c2955406b3d-detail-more 9f686951-726c-4530-b8da-5c2955406b3d-detail-less">More</a>
+		<a id="9f686951-726c-4530-b8da-5c2955406b3d-detail-less" href="#9f686951-726c-4530-b8da-5c2955406b3d-detail-less" data-toggle="collapse" data-target=".multi-collapse-9f686951-726c-4530-b8da-5c2955406b3d-detail" class="collapse multi-collapse-9f686951-726c-4530-b8da-5c2955406b3d-detail" role="button" aria-expanded="false" aria-controls="9f686951-726c-4530-b8da-5c2955406b3d 9f686951-726c-4530-b8da-5c2955406b3d-detail-more 9f686951-726c-4530-b8da-5c2955406b3d-detail-less">Less</a>
+	</div>
+	<span class="d-block">BiztlakAISMigration.CryptoTransaction2Errors</span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-9f686951-726c-4530-b8da-5c2955406b3d-detail border-bottom border-gray pb-2" id="multi-collapse-9f686951-726c-4530-b8da-5c2955406b3d-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c3df724e-d66a-40c0-89fa-e33a7bdaa1da" class="text-gray-dark"><strong>BizTalk Application (Parent):</strong> BiztlakAIS</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-a5ded7c0-47c0-464f-b010-adba413c2bad" class="text-gray-dark"><strong>Document Schema (ReferencedBy):</strong> CryptoTransaction</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee" class="text-gray-dark"><strong>Service Declaration (ReferencedBy):</strong> CrytpoReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-6414bf96-7da7-492d-a079-c98beac5e5c8" class="text-gray-dark"><strong>Document Schema (ReferencesTo):</strong> Errors</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.documentschema"></a><h6 class="border-bottom border-gray pb-2 mb-0">Document Schema</h6></div><div><a name="resource-0b75e2f1-f62e-4730-b7e6-960acd859da4"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fa fa-file-code text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">BlockchainReport</strong>
+		<a id="0b75e2f1-f62e-4730-b7e6-960acd859da4-detail-more" href="#0b75e2f1-f62e-4730-b7e6-960acd859da4-detail-more" data-toggle="collapse" data-target=".multi-collapse-0b75e2f1-f62e-4730-b7e6-960acd859da4-detail" class="collapse show multi-collapse-0b75e2f1-f62e-4730-b7e6-960acd859da4-detail" role="button" aria-expanded="true" aria-controls="0b75e2f1-f62e-4730-b7e6-960acd859da4 0b75e2f1-f62e-4730-b7e6-960acd859da4-detail-more 0b75e2f1-f62e-4730-b7e6-960acd859da4-detail-less">More</a>
+		<a id="0b75e2f1-f62e-4730-b7e6-960acd859da4-detail-less" href="#0b75e2f1-f62e-4730-b7e6-960acd859da4-detail-less" data-toggle="collapse" data-target=".multi-collapse-0b75e2f1-f62e-4730-b7e6-960acd859da4-detail" class="collapse multi-collapse-0b75e2f1-f62e-4730-b7e6-960acd859da4-detail" role="button" aria-expanded="false" aria-controls="0b75e2f1-f62e-4730-b7e6-960acd859da4 0b75e2f1-f62e-4730-b7e6-960acd859da4-detail-more 0b75e2f1-f62e-4730-b7e6-960acd859da4-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-0b75e2f1-f62e-4730-b7e6-960acd859da4-detail border-bottom border-gray pb-2" id="multi-collapse-0b75e2f1-f62e-4730-b7e6-960acd859da4-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>XML Namespace</strong>: </div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>.Net Type Name</strong>: BiztlakAISMigration.BlockchainReport</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Number of root nodes</strong>: 1</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Is Envelope Schema</strong>: False</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c3df724e-d66a-40c0-89fa-e33a7bdaa1da" class="text-gray-dark"><strong>BizTalk Application (Parent):</strong> BiztlakAIS</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-8ec887ff-c1c3-40c9-8c05-499a29c66d9f" class="text-gray-dark"><strong>Message Type (Child):</strong> BlockchainReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-e2437fa7-f345-4d57-bd81-b0d5972c088d" class="text-gray-dark"><strong>BizTalk Map (ReferencedBy):</strong> CryptoTransaction2BlockchainReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-e16cf7b2-edbf-4b15-b7c9-e61e20e4680b" class="text-gray-dark"><strong>Message (ReferencedBy):</strong> CryptoReport</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="resource-a5ded7c0-47c0-464f-b010-adba413c2bad"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fa fa-file-code text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">CryptoTransaction</strong>
+		<a id="a5ded7c0-47c0-464f-b010-adba413c2bad-detail-more" href="#a5ded7c0-47c0-464f-b010-adba413c2bad-detail-more" data-toggle="collapse" data-target=".multi-collapse-a5ded7c0-47c0-464f-b010-adba413c2bad-detail" class="collapse show multi-collapse-a5ded7c0-47c0-464f-b010-adba413c2bad-detail" role="button" aria-expanded="true" aria-controls="a5ded7c0-47c0-464f-b010-adba413c2bad a5ded7c0-47c0-464f-b010-adba413c2bad-detail-more a5ded7c0-47c0-464f-b010-adba413c2bad-detail-less">More</a>
+		<a id="a5ded7c0-47c0-464f-b010-adba413c2bad-detail-less" href="#a5ded7c0-47c0-464f-b010-adba413c2bad-detail-less" data-toggle="collapse" data-target=".multi-collapse-a5ded7c0-47c0-464f-b010-adba413c2bad-detail" class="collapse multi-collapse-a5ded7c0-47c0-464f-b010-adba413c2bad-detail" role="button" aria-expanded="false" aria-controls="a5ded7c0-47c0-464f-b010-adba413c2bad a5ded7c0-47c0-464f-b010-adba413c2bad-detail-more a5ded7c0-47c0-464f-b010-adba413c2bad-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-a5ded7c0-47c0-464f-b010-adba413c2bad-detail border-bottom border-gray pb-2" id="multi-collapse-a5ded7c0-47c0-464f-b010-adba413c2bad-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>XML Namespace</strong>: </div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>.Net Type Name</strong>: BiztlakAISMigration.CryptoTransaction</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Number of root nodes</strong>: 1</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Is Envelope Schema</strong>: False</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c3df724e-d66a-40c0-89fa-e33a7bdaa1da" class="text-gray-dark"><strong>BizTalk Application (Parent):</strong> BiztlakAIS</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c727ba65-26d2-409b-9d27-c6be620c954a" class="text-gray-dark"><strong>Message Type (Child):</strong> CryptoTransactions</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-1e3d7748-8819-4f81-aed6-370176af3170" class="text-gray-dark"><strong>Message (ReferencedBy):</strong> Crypto</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-e2437fa7-f345-4d57-bd81-b0d5972c088d" class="text-gray-dark"><strong>BizTalk Map (ReferencesTo):</strong> CryptoTransaction2BlockchainReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-9f686951-726c-4530-b8da-5c2955406b3d" class="text-gray-dark"><strong>BizTalk Map (ReferencesTo):</strong> CryptoTransaction2Errors</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="resource-6414bf96-7da7-492d-a079-c98beac5e5c8"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fa fa-file-code text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">Errors</strong>
+		<a id="6414bf96-7da7-492d-a079-c98beac5e5c8-detail-more" href="#6414bf96-7da7-492d-a079-c98beac5e5c8-detail-more" data-toggle="collapse" data-target=".multi-collapse-6414bf96-7da7-492d-a079-c98beac5e5c8-detail" class="collapse show multi-collapse-6414bf96-7da7-492d-a079-c98beac5e5c8-detail" role="button" aria-expanded="true" aria-controls="6414bf96-7da7-492d-a079-c98beac5e5c8 6414bf96-7da7-492d-a079-c98beac5e5c8-detail-more 6414bf96-7da7-492d-a079-c98beac5e5c8-detail-less">More</a>
+		<a id="6414bf96-7da7-492d-a079-c98beac5e5c8-detail-less" href="#6414bf96-7da7-492d-a079-c98beac5e5c8-detail-less" data-toggle="collapse" data-target=".multi-collapse-6414bf96-7da7-492d-a079-c98beac5e5c8-detail" class="collapse multi-collapse-6414bf96-7da7-492d-a079-c98beac5e5c8-detail" role="button" aria-expanded="false" aria-controls="6414bf96-7da7-492d-a079-c98beac5e5c8 6414bf96-7da7-492d-a079-c98beac5e5c8-detail-more 6414bf96-7da7-492d-a079-c98beac5e5c8-detail-less">Less</a>
+	</div>
+	<span class="d-block">http://example.com/Errors</span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-6414bf96-7da7-492d-a079-c98beac5e5c8-detail border-bottom border-gray pb-2" id="multi-collapse-6414bf96-7da7-492d-a079-c98beac5e5c8-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>XML Namespace</strong>: http://example.com/Errors</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>.Net Type Name</strong>: BiztlakAISMigration.Errors</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Number of root nodes</strong>: 1</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Is Envelope Schema</strong>: False</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c3df724e-d66a-40c0-89fa-e33a7bdaa1da" class="text-gray-dark"><strong>BizTalk Application (Parent):</strong> BiztlakAIS</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-ac28b9d8-db0a-4748-ac64-3ffce7881c51" class="text-gray-dark"><strong>Message Type (Child):</strong> Errors</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-9f686951-726c-4530-b8da-5c2955406b3d" class="text-gray-dark"><strong>BizTalk Map (ReferencedBy):</strong> CryptoTransaction2Errors</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c319f4ac-2bc2-479d-a66d-594a7112e2d3" class="text-gray-dark"><strong>Message (ReferencedBy):</strong> ErrorMsg</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.portdeclaration"></a><h6 class="border-bottom border-gray pb-2 mb-0">Logical Port (Orchestration Port)</h6></div><div><a name="resource-736006a0-9c60-4fe4-9149-2b83f3ee1ec8"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-sign-out-alt text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">Errori</strong>
+		<a id="736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail-more" href="#736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail-more" data-toggle="collapse" data-target=".multi-collapse-736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail" class="collapse show multi-collapse-736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail" role="button" aria-expanded="true" aria-controls="736006a0-9c60-4fe4-9149-2b83f3ee1ec8 736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail-more 736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail-less">More</a>
+		<a id="736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail-less" href="#736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail-less" data-toggle="collapse" data-target=".multi-collapse-736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail" class="collapse multi-collapse-736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail" role="button" aria-expanded="false" aria-controls="736006a0-9c60-4fe4-9149-2b83f3ee1ec8 736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail-more 736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail border-bottom border-gray pb-2" id="multi-collapse-736006a0-9c60-4fe4-9149-2b83f3ee1ec8-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee" class="text-gray-dark"><strong>Service Declaration (Parent):</strong> CrytpoReport</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="resource-262753aa-ed5f-44ef-b67b-5f889fbd6c65"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-sign-out-alt text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">Port_1</strong>
+		<a id="262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail-more" href="#262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail-more" data-toggle="collapse" data-target=".multi-collapse-262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail" class="collapse show multi-collapse-262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail" role="button" aria-expanded="true" aria-controls="262753aa-ed5f-44ef-b67b-5f889fbd6c65 262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail-more 262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail-less">More</a>
+		<a id="262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail-less" href="#262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail-less" data-toggle="collapse" data-target=".multi-collapse-262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail" class="collapse multi-collapse-262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail" role="button" aria-expanded="false" aria-controls="262753aa-ed5f-44ef-b67b-5f889fbd6c65 262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail-more 262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail border-bottom border-gray pb-2" id="multi-collapse-262753aa-ed5f-44ef-b67b-5f889fbd6c65-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee" class="text-gray-dark"><strong>Service Declaration (Parent):</strong> CrytpoReport</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="resource-78cf3d83-23c3-4e93-967e-3a2a8008dbb8"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-sign-out-alt text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">Port_2</strong>
+		<a id="78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail-more" href="#78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail-more" data-toggle="collapse" data-target=".multi-collapse-78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail" class="collapse show multi-collapse-78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail" role="button" aria-expanded="true" aria-controls="78cf3d83-23c3-4e93-967e-3a2a8008dbb8 78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail-more 78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail-less">More</a>
+		<a id="78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail-less" href="#78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail-less" data-toggle="collapse" data-target=".multi-collapse-78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail" class="collapse multi-collapse-78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail" role="button" aria-expanded="false" aria-controls="78cf3d83-23c3-4e93-967e-3a2a8008dbb8 78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail-more 78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail border-bottom border-gray pb-2" id="multi-collapse-78cf3d83-23c3-4e93-967e-3a2a8008dbb8-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee" class="text-gray-dark"><strong>Service Declaration (Parent):</strong> CrytpoReport</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.messagedeclaration"></a><h6 class="border-bottom border-gray pb-2 mb-0">Message</h6></div><div><a name="resource-1e3d7748-8819-4f81-aed6-370176af3170"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="far fa-envelope text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">Crypto</strong>
+		<a id="1e3d7748-8819-4f81-aed6-370176af3170-detail-more" href="#1e3d7748-8819-4f81-aed6-370176af3170-detail-more" data-toggle="collapse" data-target=".multi-collapse-1e3d7748-8819-4f81-aed6-370176af3170-detail" class="collapse show multi-collapse-1e3d7748-8819-4f81-aed6-370176af3170-detail" role="button" aria-expanded="true" aria-controls="1e3d7748-8819-4f81-aed6-370176af3170 1e3d7748-8819-4f81-aed6-370176af3170-detail-more 1e3d7748-8819-4f81-aed6-370176af3170-detail-less">More</a>
+		<a id="1e3d7748-8819-4f81-aed6-370176af3170-detail-less" href="#1e3d7748-8819-4f81-aed6-370176af3170-detail-less" data-toggle="collapse" data-target=".multi-collapse-1e3d7748-8819-4f81-aed6-370176af3170-detail" class="collapse multi-collapse-1e3d7748-8819-4f81-aed6-370176af3170-detail" role="button" aria-expanded="false" aria-controls="1e3d7748-8819-4f81-aed6-370176af3170 1e3d7748-8819-4f81-aed6-370176af3170-detail-more 1e3d7748-8819-4f81-aed6-370176af3170-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-1e3d7748-8819-4f81-aed6-370176af3170-detail border-bottom border-gray pb-2" id="multi-collapse-1e3d7748-8819-4f81-aed6-370176af3170-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee" class="text-gray-dark"><strong>Service Declaration (Parent):</strong> CrytpoReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-a5ded7c0-47c0-464f-b010-adba413c2bad" class="text-gray-dark"><strong>Document Schema (ReferencesTo):</strong> CryptoTransaction</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c727ba65-26d2-409b-9d27-c6be620c954a" class="text-gray-dark"><strong>Message Type (ReferencesTo):</strong> CryptoTransactions</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="resource-e16cf7b2-edbf-4b15-b7c9-e61e20e4680b"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="far fa-envelope text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">CryptoReport</strong>
+		<a id="e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail-more" href="#e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail-more" data-toggle="collapse" data-target=".multi-collapse-e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail" class="collapse show multi-collapse-e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail" role="button" aria-expanded="true" aria-controls="e16cf7b2-edbf-4b15-b7c9-e61e20e4680b e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail-more e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail-less">More</a>
+		<a id="e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail-less" href="#e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail-less" data-toggle="collapse" data-target=".multi-collapse-e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail" class="collapse multi-collapse-e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail" role="button" aria-expanded="false" aria-controls="e16cf7b2-edbf-4b15-b7c9-e61e20e4680b e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail-more e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail border-bottom border-gray pb-2" id="multi-collapse-e16cf7b2-edbf-4b15-b7c9-e61e20e4680b-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee" class="text-gray-dark"><strong>Service Declaration (Parent):</strong> CrytpoReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-0b75e2f1-f62e-4730-b7e6-960acd859da4" class="text-gray-dark"><strong>Document Schema (ReferencesTo):</strong> BlockchainReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-8ec887ff-c1c3-40c9-8c05-499a29c66d9f" class="text-gray-dark"><strong>Message Type (ReferencesTo):</strong> BlockchainReport</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="resource-c319f4ac-2bc2-479d-a66d-594a7112e2d3"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="far fa-envelope text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">ErrorMsg</strong>
+		<a id="c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail-more" href="#c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail-more" data-toggle="collapse" data-target=".multi-collapse-c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail" class="collapse show multi-collapse-c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail" role="button" aria-expanded="true" aria-controls="c319f4ac-2bc2-479d-a66d-594a7112e2d3 c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail-more c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail-less">More</a>
+		<a id="c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail-less" href="#c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail-less" data-toggle="collapse" data-target=".multi-collapse-c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail" class="collapse multi-collapse-c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail" role="button" aria-expanded="false" aria-controls="c319f4ac-2bc2-479d-a66d-594a7112e2d3 c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail-more c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail border-bottom border-gray pb-2" id="multi-collapse-c319f4ac-2bc2-479d-a66d-594a7112e2d3-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee" class="text-gray-dark"><strong>Service Declaration (Parent):</strong> CrytpoReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-6414bf96-7da7-492d-a079-c98beac5e5c8" class="text-gray-dark"><strong>Document Schema (ReferencesTo):</strong> Errors</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-ac28b9d8-db0a-4748-ac64-3ffce7881c51" class="text-gray-dark"><strong>Message Type (ReferencesTo):</strong> Errors</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.messagetype"></a><h6 class="border-bottom border-gray pb-2 mb-0">Message Type</h6></div><div><a name="resource-8ec887ff-c1c3-40c9-8c05-499a29c66d9f"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-code text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">BlockchainReport</strong>
+		<a id="8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail-more" href="#8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail-more" data-toggle="collapse" data-target=".multi-collapse-8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail" class="collapse show multi-collapse-8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail" role="button" aria-expanded="true" aria-controls="8ec887ff-c1c3-40c9-8c05-499a29c66d9f 8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail-more 8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail-less">More</a>
+		<a id="8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail-less" href="#8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail-less" data-toggle="collapse" data-target=".multi-collapse-8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail" class="collapse multi-collapse-8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail" role="button" aria-expanded="false" aria-controls="8ec887ff-c1c3-40c9-8c05-499a29c66d9f 8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail-more 8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail-less">Less</a>
+	</div>
+	<span class="d-block">#BlockchainReport</span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail border-bottom border-gray pb-2" id="multi-collapse-8ec887ff-c1c3-40c9-8c05-499a29c66d9f-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Root Node Name</strong>: BlockchainReport</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>XML Namespace</strong>: </div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-0b75e2f1-f62e-4730-b7e6-960acd859da4" class="text-gray-dark"><strong>Document Schema (Parent):</strong> BlockchainReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-e16cf7b2-edbf-4b15-b7c9-e61e20e4680b" class="text-gray-dark"><strong>Message (ReferencedBy):</strong> CryptoReport</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="resource-c727ba65-26d2-409b-9d27-c6be620c954a"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-code text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">CryptoTransactions</strong>
+		<a id="c727ba65-26d2-409b-9d27-c6be620c954a-detail-more" href="#c727ba65-26d2-409b-9d27-c6be620c954a-detail-more" data-toggle="collapse" data-target=".multi-collapse-c727ba65-26d2-409b-9d27-c6be620c954a-detail" class="collapse show multi-collapse-c727ba65-26d2-409b-9d27-c6be620c954a-detail" role="button" aria-expanded="true" aria-controls="c727ba65-26d2-409b-9d27-c6be620c954a c727ba65-26d2-409b-9d27-c6be620c954a-detail-more c727ba65-26d2-409b-9d27-c6be620c954a-detail-less">More</a>
+		<a id="c727ba65-26d2-409b-9d27-c6be620c954a-detail-less" href="#c727ba65-26d2-409b-9d27-c6be620c954a-detail-less" data-toggle="collapse" data-target=".multi-collapse-c727ba65-26d2-409b-9d27-c6be620c954a-detail" class="collapse multi-collapse-c727ba65-26d2-409b-9d27-c6be620c954a-detail" role="button" aria-expanded="false" aria-controls="c727ba65-26d2-409b-9d27-c6be620c954a c727ba65-26d2-409b-9d27-c6be620c954a-detail-more c727ba65-26d2-409b-9d27-c6be620c954a-detail-less">Less</a>
+	</div>
+	<span class="d-block">#CryptoTransactions</span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-c727ba65-26d2-409b-9d27-c6be620c954a-detail border-bottom border-gray pb-2" id="multi-collapse-c727ba65-26d2-409b-9d27-c6be620c954a-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Root Node Name</strong>: CryptoTransactions</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>XML Namespace</strong>: </div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-a5ded7c0-47c0-464f-b010-adba413c2bad" class="text-gray-dark"><strong>Document Schema (Parent):</strong> CryptoTransaction</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-1e3d7748-8819-4f81-aed6-370176af3170" class="text-gray-dark"><strong>Message (ReferencedBy):</strong> Crypto</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="resource-ac28b9d8-db0a-4748-ac64-3ffce7881c51"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-code text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">Errors</strong>
+		<a id="ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail-more" href="#ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail-more" data-toggle="collapse" data-target=".multi-collapse-ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail" class="collapse show multi-collapse-ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail" role="button" aria-expanded="true" aria-controls="ac28b9d8-db0a-4748-ac64-3ffce7881c51 ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail-more ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail-less">More</a>
+		<a id="ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail-less" href="#ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail-less" data-toggle="collapse" data-target=".multi-collapse-ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail" class="collapse multi-collapse-ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail" role="button" aria-expanded="false" aria-controls="ac28b9d8-db0a-4748-ac64-3ffce7881c51 ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail-more ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail-less">Less</a>
+	</div>
+	<span class="d-block">http://example.com/Errors#Errors</span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail border-bottom border-gray pb-2" id="multi-collapse-ac28b9d8-db0a-4748-ac64-3ffce7881c51-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Root Node Name</strong>: Errors</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>XML Namespace</strong>: http://example.com/Errors</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-6414bf96-7da7-492d-a079-c98beac5e5c8" class="text-gray-dark"><strong>Document Schema (Parent):</strong> Errors</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c319f4ac-2bc2-479d-a66d-594a7112e2d3" class="text-gray-dark"><strong>Message (ReferencedBy):</strong> ErrorMsg</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.module"></a><h6 class="border-bottom border-gray pb-2 mb-0">Module</h6></div><div><a name="resource-98e57d01-f536-4012-b0df-8da67cd20e25"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-cube text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">BiztlakAISMigration</strong>
+		<a id="98e57d01-f536-4012-b0df-8da67cd20e25-detail-more" href="#98e57d01-f536-4012-b0df-8da67cd20e25-detail-more" data-toggle="collapse" data-target=".multi-collapse-98e57d01-f536-4012-b0df-8da67cd20e25-detail" class="collapse show multi-collapse-98e57d01-f536-4012-b0df-8da67cd20e25-detail" role="button" aria-expanded="true" aria-controls="98e57d01-f536-4012-b0df-8da67cd20e25 98e57d01-f536-4012-b0df-8da67cd20e25-detail-more 98e57d01-f536-4012-b0df-8da67cd20e25-detail-less">More</a>
+		<a id="98e57d01-f536-4012-b0df-8da67cd20e25-detail-less" href="#98e57d01-f536-4012-b0df-8da67cd20e25-detail-less" data-toggle="collapse" data-target=".multi-collapse-98e57d01-f536-4012-b0df-8da67cd20e25-detail" class="collapse multi-collapse-98e57d01-f536-4012-b0df-8da67cd20e25-detail" role="button" aria-expanded="false" aria-controls="98e57d01-f536-4012-b0df-8da67cd20e25 98e57d01-f536-4012-b0df-8da67cd20e25-detail-more 98e57d01-f536-4012-b0df-8da67cd20e25-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-98e57d01-f536-4012-b0df-8da67cd20e25-detail border-bottom border-gray pb-2" id="multi-collapse-98e57d01-f536-4012-b0df-8da67cd20e25-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-e7f5b07d-eb34-4448-98ad-eb2badf0e39c" class="text-gray-dark"><strong>Orchestration MetaModel (ODX) (Parent):</strong> CrytpoReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-a88b7456-0a40-4a85-b9b8-3ad71bbfdb85" class="text-gray-dark"><strong>Port Type (Child):</strong> PortType_1</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-6f712964-365f-4723-9b2a-11d5db74d24e" class="text-gray-dark"><strong>Port Type (Child):</strong> PortType_2</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-53f8591c-221b-4755-a4f3-dce1d450ed30" class="text-gray-dark"><strong>Port Type (Child):</strong> PortType_3</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee" class="text-gray-dark"><strong>Service Declaration (Child):</strong> CrytpoReport</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.metamodel"></a><h6 class="border-bottom border-gray pb-2 mb-0">Orchestration MetaModel (ODX)</h6></div><div><a name="resource-e7f5b07d-eb34-4448-98ad-eb2badf0e39c"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-file-code text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">CrytpoReport</strong>
+		<a id="e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail-more" href="#e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail-more" data-toggle="collapse" data-target=".multi-collapse-e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail" class="collapse show multi-collapse-e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail" role="button" aria-expanded="true" aria-controls="e7f5b07d-eb34-4448-98ad-eb2badf0e39c e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail-more e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail-less">More</a>
+		<a id="e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail-less" href="#e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail-less" data-toggle="collapse" data-target=".multi-collapse-e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail" class="collapse multi-collapse-e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail" role="button" aria-expanded="false" aria-controls="e7f5b07d-eb34-4448-98ad-eb2badf0e39c e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail-more e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail border-bottom border-gray pb-2" id="multi-collapse-e7f5b07d-eb34-4448-98ad-eb2badf0e39c-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c3df724e-d66a-40c0-89fa-e33a7bdaa1da" class="text-gray-dark"><strong>BizTalk Application (Parent):</strong> BiztlakAIS</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-98e57d01-f536-4012-b0df-8da67cd20e25" class="text-gray-dark"><strong>Module (Child):</strong> BiztlakAISMigration</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.porttype"></a><h6 class="border-bottom border-gray pb-2 mb-0">Port Type</h6></div><div><a name="resource-a88b7456-0a40-4a85-b9b8-3ad71bbfdb85"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-sign-in-alt text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">PortType_1</strong>
+		<a id="a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail-more" href="#a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail-more" data-toggle="collapse" data-target=".multi-collapse-a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail" class="collapse show multi-collapse-a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail" role="button" aria-expanded="true" aria-controls="a88b7456-0a40-4a85-b9b8-3ad71bbfdb85 a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail-more a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail-less">More</a>
+		<a id="a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail-less" href="#a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail-less" data-toggle="collapse" data-target=".multi-collapse-a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail" class="collapse multi-collapse-a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail" role="button" aria-expanded="false" aria-controls="a88b7456-0a40-4a85-b9b8-3ad71bbfdb85 a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail-more a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail border-bottom border-gray pb-2" id="multi-collapse-a88b7456-0a40-4a85-b9b8-3ad71bbfdb85-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-98e57d01-f536-4012-b0df-8da67cd20e25" class="text-gray-dark"><strong>Module (Parent):</strong> BiztlakAISMigration</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="resource-6f712964-365f-4723-9b2a-11d5db74d24e"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-sign-in-alt text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">PortType_2</strong>
+		<a id="6f712964-365f-4723-9b2a-11d5db74d24e-detail-more" href="#6f712964-365f-4723-9b2a-11d5db74d24e-detail-more" data-toggle="collapse" data-target=".multi-collapse-6f712964-365f-4723-9b2a-11d5db74d24e-detail" class="collapse show multi-collapse-6f712964-365f-4723-9b2a-11d5db74d24e-detail" role="button" aria-expanded="true" aria-controls="6f712964-365f-4723-9b2a-11d5db74d24e 6f712964-365f-4723-9b2a-11d5db74d24e-detail-more 6f712964-365f-4723-9b2a-11d5db74d24e-detail-less">More</a>
+		<a id="6f712964-365f-4723-9b2a-11d5db74d24e-detail-less" href="#6f712964-365f-4723-9b2a-11d5db74d24e-detail-less" data-toggle="collapse" data-target=".multi-collapse-6f712964-365f-4723-9b2a-11d5db74d24e-detail" class="collapse multi-collapse-6f712964-365f-4723-9b2a-11d5db74d24e-detail" role="button" aria-expanded="false" aria-controls="6f712964-365f-4723-9b2a-11d5db74d24e 6f712964-365f-4723-9b2a-11d5db74d24e-detail-more 6f712964-365f-4723-9b2a-11d5db74d24e-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-6f712964-365f-4723-9b2a-11d5db74d24e-detail border-bottom border-gray pb-2" id="multi-collapse-6f712964-365f-4723-9b2a-11d5db74d24e-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-98e57d01-f536-4012-b0df-8da67cd20e25" class="text-gray-dark"><strong>Module (Parent):</strong> BiztlakAISMigration</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="resource-53f8591c-221b-4755-a4f3-dce1d450ed30"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-sign-in-alt text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">PortType_3</strong>
+		<a id="53f8591c-221b-4755-a4f3-dce1d450ed30-detail-more" href="#53f8591c-221b-4755-a4f3-dce1d450ed30-detail-more" data-toggle="collapse" data-target=".multi-collapse-53f8591c-221b-4755-a4f3-dce1d450ed30-detail" class="collapse show multi-collapse-53f8591c-221b-4755-a4f3-dce1d450ed30-detail" role="button" aria-expanded="true" aria-controls="53f8591c-221b-4755-a4f3-dce1d450ed30 53f8591c-221b-4755-a4f3-dce1d450ed30-detail-more 53f8591c-221b-4755-a4f3-dce1d450ed30-detail-less">More</a>
+		<a id="53f8591c-221b-4755-a4f3-dce1d450ed30-detail-less" href="#53f8591c-221b-4755-a4f3-dce1d450ed30-detail-less" data-toggle="collapse" data-target=".multi-collapse-53f8591c-221b-4755-a4f3-dce1d450ed30-detail" class="collapse multi-collapse-53f8591c-221b-4755-a4f3-dce1d450ed30-detail" role="button" aria-expanded="false" aria-controls="53f8591c-221b-4755-a4f3-dce1d450ed30 53f8591c-221b-4755-a4f3-dce1d450ed30-detail-more 53f8591c-221b-4755-a4f3-dce1d450ed30-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-53f8591c-221b-4755-a4f3-dce1d450ed30-detail border-bottom border-gray pb-2" id="multi-collapse-53f8591c-221b-4755-a4f3-dce1d450ed30-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-98e57d01-f536-4012-b0df-8da67cd20e25" class="text-gray-dark"><strong>Module (Parent):</strong> BiztlakAISMigration</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.receivelocation"></a><h6 class="border-bottom border-gray pb-2 mb-0">Receive Location</h6></div><div><a name="resource-c31bf2df-7925-44f6-af16-46fc7aff0ff4"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-exchange-alt text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">bizaaismigration_receiveLocation</strong>
+		<a id="c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail-more" href="#c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail-more" data-toggle="collapse" data-target=".multi-collapse-c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail" class="collapse show multi-collapse-c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail" role="button" aria-expanded="true" aria-controls="c31bf2df-7925-44f6-af16-46fc7aff0ff4 c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail-more c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail-less">More</a>
+		<a id="c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail-less" href="#c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail-less" data-toggle="collapse" data-target=".multi-collapse-c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail" class="collapse multi-collapse-c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail" role="button" aria-expanded="false" aria-controls="c31bf2df-7925-44f6-af16-46fc7aff0ff4 c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail-more c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail border-bottom border-gray pb-2" id="multi-collapse-c31bf2df-7925-44f6-af16-46fc7aff0ff4-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Transport Type</strong>: FILE</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Address</strong>: C:\BiztlakAISMIGRATION_TEST\*.xml</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-af141380-2004-4f9f-b2c7-a691b96f6d63" class="text-gray-dark"><strong>Receive Port (Parent):</strong> bizaaismigration_receive</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.receiveport"></a><h6 class="border-bottom border-gray pb-2 mb-0">Receive Port</h6></div><div><a name="resource-af141380-2004-4f9f-b2c7-a691b96f6d63"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-arrow-circle-right text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">bizaaismigration_receive</strong>
+		<a id="af141380-2004-4f9f-b2c7-a691b96f6d63-detail-more" href="#af141380-2004-4f9f-b2c7-a691b96f6d63-detail-more" data-toggle="collapse" data-target=".multi-collapse-af141380-2004-4f9f-b2c7-a691b96f6d63-detail" class="collapse show multi-collapse-af141380-2004-4f9f-b2c7-a691b96f6d63-detail" role="button" aria-expanded="true" aria-controls="af141380-2004-4f9f-b2c7-a691b96f6d63 af141380-2004-4f9f-b2c7-a691b96f6d63-detail-more af141380-2004-4f9f-b2c7-a691b96f6d63-detail-less">More</a>
+		<a id="af141380-2004-4f9f-b2c7-a691b96f6d63-detail-less" href="#af141380-2004-4f9f-b2c7-a691b96f6d63-detail-less" data-toggle="collapse" data-target=".multi-collapse-af141380-2004-4f9f-b2c7-a691b96f6d63-detail" class="collapse multi-collapse-af141380-2004-4f9f-b2c7-a691b96f6d63-detail" role="button" aria-expanded="false" aria-controls="af141380-2004-4f9f-b2c7-a691b96f6d63 af141380-2004-4f9f-b2c7-a691b96f6d63-detail-more af141380-2004-4f9f-b2c7-a691b96f6d63-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-af141380-2004-4f9f-b2c7-a691b96f6d63-detail border-bottom border-gray pb-2" id="multi-collapse-af141380-2004-4f9f-b2c7-a691b96f6d63-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Direction</strong>: One-Way</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c3df724e-d66a-40c0-89fa-e33a7bdaa1da" class="text-gray-dark"><strong>BizTalk Application (Parent):</strong> BiztlakAIS</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c31bf2df-7925-44f6-af16-46fc7aff0ff4" class="text-gray-dark"><strong>Receive Location (Child):</strong> bizaaismigration_receiveLocation</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.sendport"></a><h6 class="border-bottom border-gray pb-2 mb-0">Send Port</h6></div><div><a name="resource-a0825bb1-2a4e-4169-b64a-fedc8041c57e"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-arrow-circle-left text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">ERROR</strong>
+		<a id="a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail-more" href="#a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail-more" data-toggle="collapse" data-target=".multi-collapse-a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail" class="collapse show multi-collapse-a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail" role="button" aria-expanded="true" aria-controls="a0825bb1-2a4e-4169-b64a-fedc8041c57e a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail-more a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail-less">More</a>
+		<a id="a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail-less" href="#a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail-less" data-toggle="collapse" data-target=".multi-collapse-a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail" class="collapse multi-collapse-a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail" role="button" aria-expanded="false" aria-controls="a0825bb1-2a4e-4169-b64a-fedc8041c57e a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail-more a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail border-bottom border-gray pb-2" id="multi-collapse-a0825bb1-2a4e-4169-b64a-fedc8041c57e-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Send Port Type</strong>: Static</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Primary Transport Type</strong>: FILE</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Primary Address</strong>: C:\BiztlakAISMIGRATION_TEST\ERROR\%MessageID%.xml</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Direction</strong>: One-Way</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c3df724e-d66a-40c0-89fa-e33a7bdaa1da" class="text-gray-dark"><strong>BizTalk Application (Parent):</strong> BiztlakAIS</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="resource-aaf19f75-c3f0-452f-9a6f-3916eafabe2a"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-arrow-circle-left text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">SendPort5</strong>
+		<a id="aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail-more" href="#aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail-more" data-toggle="collapse" data-target=".multi-collapse-aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail" class="collapse show multi-collapse-aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail" role="button" aria-expanded="true" aria-controls="aaf19f75-c3f0-452f-9a6f-3916eafabe2a aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail-more aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail-less">More</a>
+		<a id="aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail-less" href="#aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail-less" data-toggle="collapse" data-target=".multi-collapse-aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail" class="collapse multi-collapse-aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail" role="button" aria-expanded="false" aria-controls="aaf19f75-c3f0-452f-9a6f-3916eafabe2a aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail-more aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail border-bottom border-gray pb-2" id="multi-collapse-aaf19f75-c3f0-452f-9a6f-3916eafabe2a-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Send Port Type</strong>: Static</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Primary Transport Type</strong>: FILE</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Primary Address</strong>: C:\BiztlakAISMIGRATION_TEST\OUT\%MessageID%.xml</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-success mr-2 ml-2 small"></i><strong>Direction</strong>: One-Way</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c3df724e-d66a-40c0-89fa-e33a7bdaa1da" class="text-gray-dark"><strong>BizTalk Application (Parent):</strong> BiztlakAIS</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.servicebinding"></a><h6 class="border-bottom border-gray pb-2 mb-0">Service (Orchestration)</h6></div><div><a name="resource-9d6deaad-b8fb-4f01-a63a-a3d78147ce01"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fa fa-sitemap text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">BiztlakAISMigration.CrytpoReport</strong>
+		<a id="9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail-more" href="#9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail-more" data-toggle="collapse" data-target=".multi-collapse-9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail" class="collapse show multi-collapse-9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail" role="button" aria-expanded="true" aria-controls="9d6deaad-b8fb-4f01-a63a-a3d78147ce01 9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail-more 9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail-less">More</a>
+		<a id="9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail-less" href="#9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail-less" data-toggle="collapse" data-target=".multi-collapse-9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail" class="collapse multi-collapse-9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail" role="button" aria-expanded="false" aria-controls="9d6deaad-b8fb-4f01-a63a-a3d78147ce01 9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail-more 9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail border-bottom border-gray pb-2" id="multi-collapse-9d6deaad-b8fb-4f01-a63a-a3d78147ce01-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no links or references.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div><div><a name="microsoft.biztalk.resource.servicedeclaration"></a><h6 class="border-bottom border-gray pb-2 mb-0">Service Declaration</h6></div><div><a name="resource-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee"></a><div class="media text-muted pt-3 border-bottom border-gray">
+<i class="fas fa-cog text-success mr-2 ml-2 resource-icon"></i>
+<div class="media-body pb-3 mb-0 small lh-125">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<strong class="text-gray-dark">CrytpoReport</strong>
+		<a id="bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail-more" href="#bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail-more" data-toggle="collapse" data-target=".multi-collapse-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail" class="collapse show multi-collapse-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail" role="button" aria-expanded="true" aria-controls="bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail-more bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail-less">More</a>
+		<a id="bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail-less" href="#bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail-less" data-toggle="collapse" data-target=".multi-collapse-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail" class="collapse multi-collapse-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail" role="button" aria-expanded="false" aria-controls="bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail-more bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail-less">Less</a>
+	</div>
+	<span class="d-block"></span>
+</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail border-bottom border-gray pb-2" id="multi-collapse-bc99cb0f-8b44-4a3e-a000-46f7fb2fb5ee-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Linked Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-98e57d01-f536-4012-b0df-8da67cd20e25" class="text-gray-dark"><strong>Module (Parent):</strong> BiztlakAISMigration</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-736006a0-9c60-4fe4-9149-2b83f3ee1ec8" class="text-gray-dark"><strong>Logical Port (Orchestration Port) (Child):</strong> Errori</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-262753aa-ed5f-44ef-b67b-5f889fbd6c65" class="text-gray-dark"><strong>Logical Port (Orchestration Port) (Child):</strong> Port_1</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-78cf3d83-23c3-4e93-967e-3a2a8008dbb8" class="text-gray-dark"><strong>Logical Port (Orchestration Port) (Child):</strong> Port_2</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-1e3d7748-8819-4f81-aed6-370176af3170" class="text-gray-dark"><strong>Message (Child):</strong> Crypto</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-e16cf7b2-edbf-4b15-b7c9-e61e20e4680b" class="text-gray-dark"><strong>Message (Child):</strong> CryptoReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-c319f4ac-2bc2-479d-a66d-594a7112e2d3" class="text-gray-dark"><strong>Message (Child):</strong> ErrorMsg</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-e2437fa7-f345-4d57-bd81-b0d5972c088d" class="text-gray-dark"><strong>BizTalk Map (ReferencesTo):</strong> CryptoTransaction2BlockchainReport</a>
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-secondary mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html#resource-9f686951-726c-4530-b8da-5c2955406b3d" class="text-gray-dark"><strong>BizTalk Map (ReferencesTo):</strong> CryptoTransaction2Errors</a>
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div></div></div></div>
+	</div></div></div>
+    </main>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.7/holder.min.js" crossorigin="anonymous"></script>
+    <script type='text/javascript' src='https://kit.fontawesome.com/79f5499051.js?ver=2.6.2'></script>
+    <!-- embedded offcanvas script -->
+    <script language="javascript">
+        $(function () {
+            'use strict'
+
+            $('[data-toggle="offcanvas"]').on('click', function () {
+                $('.offcanvas-collapse').toggleClass('open')
+            })
+        })
+
+        // Expand / collapse all applications
+        $(document).ready(function () {
+            $(".expand-apps").on("click", function () {
+                console.log("Expanding / collapsing all application panels");
+                $(this).toggleClass("active");
+                if ($(this).hasClass("active")) {
+                    $('.application-more').collapse('hide');
+                    $('.application-less').collapse('show');
+                }
+                else {
+                    $('.application-more').collapse('show');
+                    $('.application-less').collapse('hide');
+                }
+            })
+            $(".expand-resources").on("click", function () {
+                console.log("Expanding / collapsing all resource panels");
+                $(this).toggleClass("active");
+                if ($(this).hasClass("active")) {
+                    $('#resource-container-content').find('.rc-more').collapse('hide');
+                    $('#resource-container-content').find('.rc-less').collapse('show');
+                }
+                else {
+                    $('#resource-container-content').find('.rc-more').collapse('show');
+                    $('#resource-container-content').find('.rc-less').collapse('hide');
+                }
+            })
+            $(".resource-link").on("click", function () {
+                console.log("Resource linking to associated resource");
+                // Get the resource refid from the class
+                var refId = this.id;
+                console.log(refId);
+                // Look up the section contents by the refId and check to see if it's already expanded
+                var applicationContents = $("#multi-collapse-" + refId + "-detail-content").closest(".application-section");
+
+                // If not expanded then expand
+                if (applicationContents) {
+                    var hasExpanded = applicationContents.hasClass("show");
+                    console.log("Check to see if application section is already expanded: " + hasExpanded);
+                    if (!hasExpanded) {
+                        console.log("Looking up application section so it can be expanded.");
+                        var applicationSection = applicationContents.closest(".application-container");
+                        console.log("Application section: " + applicationSection.prop("tagName"));
+                        applicationSection.find(".application-more").collapse("hide");
+                        applicationSection.find(".application-less").collapse("show");
+                    }
+                    setTimeout(function () {
+                        var element = document.getElementById(refId + "-detail-more");
+                        var offset = 60;
+                        var elementPosition = element.getBoundingClientRect().top;
+                        var position = elementPosition - offset;
+                        console.log("Scrolling to: " + position);
+                        window.scrollTo({
+                            top: position,
+                            behavior: "smooth"
+                        });
+                    }, 500);
+                }
+                else {
+                    console.log("Application contents not located.");
+                }
+                return false;
+            })
+        })
+    </script>
+</body>
+</html>

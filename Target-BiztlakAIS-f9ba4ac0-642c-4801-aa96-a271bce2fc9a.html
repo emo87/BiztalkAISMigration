@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Custom styles for this template -->
+    <!--<link href="offcanvas.css" rel="stylesheet">-->
+
+    <title>BizTalk to Azure Integration Services Migration Report</title>
+
+    <style>
+        html,
+        body {
+            overflow-x: hidden; /* Prevent scroll on narrow devices */
+        }
+
+        body {
+            padding-top: 56px;
+        }
+
+        @media (max-width: 767.98px) {
+            .offcanvas-collapse {
+                position: fixed;
+                top: 56px; /* Height of navbar */
+                bottom: 0;
+                width: 100%;
+                padding-right: 1rem;
+                padding-left: 1rem;
+                overflow-y: auto;
+                background-color: var(--gray-dark);
+                transition: -webkit-transform .3s ease-in-out;
+                transition: transform .3s ease-in-out;
+                transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
+                -webkit-transform: translateX(100%);
+                transform: translateX(100%);
+            }
+
+                .offcanvas-collapse.open {
+                    -webkit-transform: translateX(-1rem);
+                    transform: translateX(-1rem); /* Account for horizontal padding on navbar */
+                }
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+            .nav-scroller .nav {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                padding-bottom: 1rem;
+                margin-top: -1px;
+                overflow-x: auto;
+                color: rgba(255, 255, 255, .75);
+                text-align: center;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+
+        .nav-underline .nav-link {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            font-size: .875rem;
+            color: var(--secondary);
+        }
+
+            .nav-underline .nav-link:hover {
+                color: var(--blue);
+            }
+
+        .nav-underline .active {
+            font-weight: 500;
+            color: var(--gray-dark);
+        }
+
+        .text-white-50 {
+            color: rgba(255, 255, 255, .5);
+        }
+
+        .bg-purple {
+            background-color: var(--purple);
+        }
+
+        .border-bottom {
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .box-shadow {
+            box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+        }
+
+        .lh-100 {
+            line-height: 1;
+        }
+
+        .lh-125 {
+            line-height: 1.25;
+        }
+
+        .lh-150 {
+            line-height: 1.5;
+        }
+
+        .section-icon {
+            font-size: 48px;
+        }
+
+        .resource-icon {
+            font-size: 32px;
+        }
+
+        .analysis-icon {
+            font-size: 1rem;
+        }
+
+        .expand-apps:before {
+            content: "Expand Applications";
+        }
+
+        .expand-apps.active:before {
+            content: "Collapse Applications";
+        }
+
+        .expand-resources:before {
+            content: "Expand Resources";
+        }
+
+        .expand-resources.active:before {
+            content: "Collapse Resources";
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-primary">
+        <a class="navbar-brand" href="BizTalkMigrationReport.html" id="home-link">BizTalk Migration Report</a>
+        <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto" id="navbar-list">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Input BizTalk Applications</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01" id="source-application-dropdown"><a class="dropdown-item" href="Source-BiztlakAIS-da1ed09b-8ccd-4de8-885d-32af499fa693.html">BiztlakAIS</a></div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Output AIS Applications</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01" id="target-application-dropdown"><a class="dropdown-item" href="MessageBus-Message-Bus-c74235e5-45ef-42c0-8583-27575a44b8dd.html">Message Bus</a><a class="dropdown-item" href="Target-BiztlakAIS-f9ba4ac0-642c-4801-aa96-a271bce2fc9a.html">BiztlakAIS</a><a class="dropdown-item" href="Target-System-Application-8694a819-3112-44ac-b04e-6f58cf880cef.html">System Application</a></div>
+                </li>
+            <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Scenarios</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01" id="resources-dropdown"><a class="dropdown-item" href="#BiztlakAIS.bizaaismigration_receive.bizaaismigration_receiveLocation">BiztlakAIS.bizaaismigration_receive.bizaaismigration_receiveLocation</a><a class="dropdown-item" href="#BiztlakAIS.SendPort5">BiztlakAIS.SendPort5</a><a class="dropdown-item" href="#BiztlakAIS.ERROR">BiztlakAIS.ERROR</a><a class="dropdown-item" href="#BiztlakAIS.BiztlakAISMigration.CrytpoReport">BiztlakAIS.BiztlakAISMigration.CrytpoReport</a></div>
+                </li></ul>
+        </div>
+
+    </nav>
+
+    <main role="main" class="container">
+        <div id="report-content">
+            <!-- Report content is rendered in here. -->
+        <div><div id="e6d9095b-b144-4b12-b0ae-29fe33e340ca" class="application-container">
+	<div class="d-flex align-items-center p-2 my-3 text-white-50 bg-secondary rounded box-shadow">
+		<i class="fas fa-poll-h text-white mr-2 ml-2 mb-2 section-icon"></i>
+		<div class="lh-100">
+			<h6 class="mb-1 text-white lh-100">Output AIS Application: BiztlakAIS</h6>
+			<i class="fas fa-star text-white"></i><i class="fas fa-star text-white"></i><i class="fas fa-star text-white"></i><i class="fas fa-star text-white"></i><i class="fas fa-star-half-alt text-white"></i> (95%)
+			<br>
+			<small>Azure Integration Application</small>
+		</div>
+	</div>
+	
+	<div class="my-3 pr-2 pb-2 bg-white rounded box-shadow multi-collapse-e6d9095b-b144-4b12-b0ae-29fe33e340ca-application application-section application-less" id="application-e6d9095b-b144-4b12-b0ae-29fe33e340ca-contents">
+
+	<div><h6 class="border-bottom border-gray pb-2 mb-0">Summary</h6></div><div><a name="resource-8308b37a-07dc-49a2-9129-6d934ba5563e"></a>
+<div class="media text-muted pt-3 border-bottom border-gray">
+	<i class="fas fa-info-circle text-info small mr-2 ml-2 resource-icon"></i>
+	<div class="media-body pb-3 mb-0 small lh-125">
+		<div class="d-flex justify-content-between align-items-center w-100">
+			<strong class="text-gray-dark">Summary information for this application.</strong>
+		</div>
+		<br><span class="d-block">Number of Messages: 3</span><br><span class="d-block">Number of Endpoints: 3</span><br><span class="d-block">Number of Channels: 12</span><br><span class="d-block">Number of Intermediaries: 13</span><br><span class="d-block">Number of Scenarios: 4</span><br><span class="d-block">Number Of Resources (Files) Generated: 67</span>
+	</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-8308b37a-07dc-49a2-9129-6d934ba5563e-detail border-bottom border-gray pb-2" id="multi-collapse-8308b37a-07dc-49a2-9129-6d934ba5563e-detail-content"></div></div><div><a name="BiztlakAIS.bizaaismigration_receive.bizaaismigration_receiveLocation"></a>
+<h6 class="border-bottom border-gray pb-2 mb-0">Scenario: BiztlakAIS.bizaaismigration_receive.bizaaismigration_receiveLocation</h6></div><div><a name="resource-062e1769-a424-44cc-ade9-054efdde71c4"></a>
+<div class="media text-muted pt-3 border-bottom border-gray">
+	<i class="fas fa-plug text-success mr-2 ml-2 resource-icon"></i>
+	<div class="media-body pb-3 mb-0 small lh-125">
+		<div class="d-flex justify-content-between align-items-center w-100">
+			<strong class="text-gray-dark">bizaaismigration_receiveLocation</strong>
+			<a id="062e1769-a424-44cc-ade9-054efdde71c4-detail-more" href="#062e1769-a424-44cc-ade9-054efdde71c4-detail-more" data-toggle="collapse" data-target=".multi-collapse-062e1769-a424-44cc-ade9-054efdde71c4-detail" class="collapse show multi-collapse-062e1769-a424-44cc-ade9-054efdde71c4-detail" role="button" aria-expanded="true" aria-controls="062e1769-a424-44cc-ade9-054efdde71c4 062e1769-a424-44cc-ade9-054efdde71c4-detail-more 062e1769-a424-44cc-ade9-054efdde71c4-detail-less">More</a>
+			<a id="062e1769-a424-44cc-ade9-054efdde71c4-detail-less" href="#062e1769-a424-44cc-ade9-054efdde71c4-detail-less" data-toggle="collapse" data-target=".multi-collapse-062e1769-a424-44cc-ade9-054efdde71c4-detail" class="collapse multi-collapse-062e1769-a424-44cc-ade9-054efdde71c4-detail" role="button" aria-expanded="false" aria-controls="062e1769-a424-44cc-ade9-054efdde71c4 062e1769-a424-44cc-ade9-054efdde71c4-detail-more 062e1769-a424-44cc-ade9-054efdde71c4-detail-less">Less</a>
+		</div>
+		<i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="far fa-star text-success"></i>
+		<br><span class="d-block">Endpoint Type: Adapter</span><br><span class="d-block">Message Exchange Pattern: Accept</span><br><span class="d-block">Message Delivery Guarantee: AtLeastOnce</span>
+	</div>
+</div>
+<div class="collapse text-muted pt-3 pl-3 multi-collapse-062e1769-a424-44cc-ade9-054efdde71c4-detail border-bottom border-gray pb-2" id="multi-collapse-062e1769-a424-44cc-ade9-054efdde71c4-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>scenario</strong>: BiztlakAIS.bizaaismigration_receive.bizaaismigration_receiveLocation</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>scenarioStep</strong>: fileReceiveAdapter</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>configuration</strong>: </div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>isTwoWay</strong>: This item has no properties listed.</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsReceivePortName</strong>: bizaaismigration_receive</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsReceivePortId</strong>: BiztlakAIS.bizaaismigration_receive</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsInboundTransportType</strong>: FILE</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsInboundTransportLocation</strong>: C:\BiztlakAISMIGRATION_TEST\*.xml</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>failedMessageRouting</strong>: This item has no properties listed.</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>fileMask</strong>: *.xml</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>routingProperties</strong>: </div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsReceivePortName</strong>: btsReceivePortName</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsReceivePortId</strong>: btsReceivePortId</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsInboundTransportType</strong>: btsInboundTransportType</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsInboundTransportLocation</strong>: btsInboundTransportLocation</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>rootFolder</strong>: C:/BiztlakAISMIGRATION_TEST/</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>maxFileCount</strong>: 20</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>fileMask</strong>: *.xml</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>recurrence</strong>: This item has no properties listed.</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>userName</strong>: temp.user</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>password</strong>: </div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>The BizTalk File adapter property 'password' is not copied because it is a sensitive value and must be manually specified later in the generated template file where this property is used.</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-exclamation-triangle text-warning mr-2 ml-2 resource-icon analysis-icon"></i>The BizTalk File adapter property 'RenameReceivedFiles' with value '0' is not supported by the AIS File System connector.</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-exclamation-triangle text-warning mr-2 ml-2 resource-icon analysis-icon"></i>The BizTalk File adapter property 'RemoveReceivedFileDelay' with value '10' is not supported by the AIS File System connector.</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-exclamation-triangle text-warning mr-2 ml-2 resource-icon analysis-icon"></i>The BizTalk File adapter property 'RemoveReceivedFileMaxInterval' with value '300000' is not supported by the AIS File System connector.</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-exclamation-triangle text-warning mr-2 ml-2 resource-icon analysis-icon"></i>The BizTalk File adapter property 'FileNetFailRetryInt' with value '5' is not supported by the AIS File System connector.</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-exclamation-triangle text-warning mr-2 ml-2 resource-icon analysis-icon"></i>The BizTalk File adapter property 'RemoveReceivedFileRetryCount' with value '5' is not supported by the AIS File System connector.</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-exclamation-triangle text-warning mr-2 ml-2 resource-icon analysis-icon"></i>The BizTalk File adapter property 'BatchSizeInBytes' with value '102400' is not supported by the AIS File System connector.</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-exclamation-triangle text-warning mr-2 ml-2 resource-icon analysis-icon"></i>The BizTalk File adapter property 'FileNetFailRetryCount' with value '5' is not supported by the AIS File System connector.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-globe text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Web Connections:</strong> apic-aimfilerconnector-bizaaismigration_receivelocation-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-globe text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Web Connections:</strong> apic-topicpublisherconnector-bizaaismigration_receivelocation-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-project-diagram text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Consumption Logic App:</strong> logic-aimfileradapter-bizaaismigration_receivelocation-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-route text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Routing Slip:</strong> appcfg-routingslip-bizaaismigration_receivelocation-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="far fa-bookmark text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Configuration Entry:</strong> appcfg-configurationentry-bizaaismigration_receivelocation-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-map-marker-alt text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Routing Properties:</strong> appcfg-routingproperties-bizaaismigration_receivelocation-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> logic-aimfileradapter-bizaaismigration_receivelocation-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> apic-aimfilerconnector-bizaaismigration_receivelocation-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> apic-topicpublisherconnector-bizaaismigration_receivelocation-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> appcfg-routingslip-bizaaismigration_receivelocation-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> appcfg-configurationentry-bizaaismigration_receivelocation-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> appcfg-routingproperties-bizaaismigration_receivelocation-dev-1oz97
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Links:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-link text-success mr-2 ml-2 resource-icon analysis-icon"></i>
+	<a href="https://docs.microsoft.com/en-us/connectors/filesystem/" class="text-gray-dark" target="_blank">https://docs.microsoft.com/en-us/connectors/filesystem/</a>
+</div></div></div></div><div><a name="resource-f4ce2c0a-833c-4285-ae80-3b2834264f8b"></a><div class="media text-muted pt-3 border-bottom border-gray">
+  				<i class="fas fa-link text-success mr-2 ml-2 resource-icon"></i>
+  				<div class="media-body pb-3 mb-0 small lh-125">
+  					<div class="d-flex justify-content-between align-items-center w-100">
+  						<strong class="text-gray-dark">Trigger Channel</strong>
+  						<a id="f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail-more" href="#f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail-more" data-toggle="collapse" data-target=".multi-collapse-f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail" class="collapse show multi-collapse-f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail" role="button" aria-expanded="true" aria-controls="f4ce2c0a-833c-4285-ae80-3b2834264f8b f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail-more f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail-less">More</a>
+  						<a id="f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail-less" href="#f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail-less" data-toggle="collapse" data-target=".multi-collapse-f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail" class="collapse multi-collapse-f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail" role="button" aria-expanded="false" aria-controls="f4ce2c0a-833c-4285-ae80-3b2834264f8b f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail-more f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail-less">Less</a>
+  					</div>
+					<i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i>
+					<br>
+  					<span class="d-block"><br><span class="d-block">The trigger channel sends a message to a URL endpoint which triggers the Microsoft.AzureIntegrationMigration.ApplicationModel.Target.Intermediaries.RoutingSlipRouter intermediary.</span><br><span class="d-block">Channel Type: PointToPoint</span></span>
+  				</div>
+  			</div>
+  			<div class="collapse text-muted pt-3 pl-3 multi-collapse-f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail border-bottom border-gray pb-2" id="multi-collapse-f4ce2c0a-833c-4285-ae80-3b2834264f8b-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>routeLabel</strong>: RouteFrom</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Resources:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no Azure resources associated with it.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Links:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no links or references.</div></div></div></div><div><a name="BiztlakAIS.SendPort5"></a>
+<h6 class="border-bottom border-gray pb-2 mb-0">Scenario: BiztlakAIS.SendPort5</h6></div><div><a name="resource-d462a6b2-cbff-48fb-a882-ac96ef10f42d"></a><div class="media text-muted pt-3 border-bottom border-gray">
+  				<i class="fab fa-connectdevelop text-success mr-2 ml-2 resource-icon"></i>
+  				<div class="media-body pb-3 mb-0 small lh-125">
+  					<div class="d-flex justify-content-between align-items-center w-100">
+  						<strong class="text-gray-dark">SendPort5</strong>
+  						<a id="d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail-more" href="#d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail-more" data-toggle="collapse" data-target=".multi-collapse-d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail" class="collapse show multi-collapse-d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail" role="button" aria-expanded="true" aria-controls="d462a6b2-cbff-48fb-a882-ac96ef10f42d d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail-more d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail-less">More</a>
+  						<a id="d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail-less" href="#d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail-less" data-toggle="collapse" data-target=".multi-collapse-d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail" class="collapse multi-collapse-d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail" role="button" aria-expanded="false" aria-controls="d462a6b2-cbff-48fb-a882-ac96ef10f42d d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail-more d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail-less">Less</a>
+  					</div>
+					<i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i>
+					<br>
+  					<span class="d-block"><br><span class="d-block">The message subscriber receives a message from a publish-subscribe channel using a subscription filter.</span><br><span class="d-block">Intermediary Type: MessageRouter</span><br><span class="d-block">Message Router Type: MessageSubscriber</span></span>
+  				</div>
+  			</div>
+  			<div class="collapse text-muted pt-3 pl-3 multi-collapse-d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail border-bottom border-gray pb-2" id="multi-collapse-d462a6b2-cbff-48fb-a882-ac96ef10f42d-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>scenario</strong>: BiztlakAIS.SendPort5</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>scenarioStep</strong>: messageSubscriber</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>configuration</strong>: </div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsSpName</strong>: SendPort5</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsSpId</strong>: BiztlakAIS.SendPort5</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsAckSendPortName</strong>: SendPort5</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsAckSendPortId</strong>: BiztlakAIS.SendPort5</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>routingProperties</strong>: </div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsAckSendPortName</strong>: SendPort5</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-globe text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Web Connections:</strong> apic-topicsubscriberconnector-sendport5-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-project-diagram text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Consumption Logic App:</strong> logic-aimtopicsubscriber-sendport5-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-route text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Routing Slip:</strong> appcfg-routingslip-sendport5-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="far fa-bookmark text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Configuration Entry:</strong> appcfg-routingslip-sendport5-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-map-marker-alt text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Routing Properties:</strong> appcfg-routingproperties-sendport5-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> apic-topicsubscriberconnector-sendport5-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> logic-aimtopicsubscriber-sendport5-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> appcfg-routingslip-sendport5-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> appcfg-configurationentry-sendport5-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> appcfg-routingproperties-sendport5-dev-1oz97
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Links:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no links or references.</div></div></div></div><div><a name="resource-b5293ce3-5353-4d75-aae6-a668a7d405ae"></a><div class="media text-muted pt-3 border-bottom border-gray">
+  				<i class="fas fa-link text-success mr-2 ml-2 resource-icon"></i>
+  				<div class="media-body pb-3 mb-0 small lh-125">
+  					<div class="d-flex justify-content-between align-items-center w-100">
+  						<strong class="text-gray-dark">Trigger Channel</strong>
+  						<a id="b5293ce3-5353-4d75-aae6-a668a7d405ae-detail-more" href="#b5293ce3-5353-4d75-aae6-a668a7d405ae-detail-more" data-toggle="collapse" data-target=".multi-collapse-b5293ce3-5353-4d75-aae6-a668a7d405ae-detail" class="collapse show multi-collapse-b5293ce3-5353-4d75-aae6-a668a7d405ae-detail" role="button" aria-expanded="true" aria-controls="b5293ce3-5353-4d75-aae6-a668a7d405ae b5293ce3-5353-4d75-aae6-a668a7d405ae-detail-more b5293ce3-5353-4d75-aae6-a668a7d405ae-detail-less">More</a>
+  						<a id="b5293ce3-5353-4d75-aae6-a668a7d405ae-detail-less" href="#b5293ce3-5353-4d75-aae6-a668a7d405ae-detail-less" data-toggle="collapse" data-target=".multi-collapse-b5293ce3-5353-4d75-aae6-a668a7d405ae-detail" class="collapse multi-collapse-b5293ce3-5353-4d75-aae6-a668a7d405ae-detail" role="button" aria-expanded="false" aria-controls="b5293ce3-5353-4d75-aae6-a668a7d405ae b5293ce3-5353-4d75-aae6-a668a7d405ae-detail-more b5293ce3-5353-4d75-aae6-a668a7d405ae-detail-less">Less</a>
+  					</div>
+					<i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i>
+					<br>
+  					<span class="d-block"><br><span class="d-block">The trigger channel sends a message to a URL endpoint which triggers the Routing Slip Router intermediary.</span><br><span class="d-block">Channel Type: PointToPoint</span></span>
+  				</div>
+  			</div>
+  			<div class="collapse text-muted pt-3 pl-3 multi-collapse-b5293ce3-5353-4d75-aae6-a668a7d405ae-detail border-bottom border-gray pb-2" id="multi-collapse-b5293ce3-5353-4d75-aae6-a668a7d405ae-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>routeLabel</strong>: RouteFrom</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Resources:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no Azure resources associated with it.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Links:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no links or references.</div></div></div></div><div><a name="BiztlakAIS.ERROR"></a>
+<h6 class="border-bottom border-gray pb-2 mb-0">Scenario: BiztlakAIS.ERROR</h6></div><div><a name="resource-68d695ca-f3bf-4e16-84c5-d24fddb054c6"></a><div class="media text-muted pt-3 border-bottom border-gray">
+  				<i class="fab fa-connectdevelop text-success mr-2 ml-2 resource-icon"></i>
+  				<div class="media-body pb-3 mb-0 small lh-125">
+  					<div class="d-flex justify-content-between align-items-center w-100">
+  						<strong class="text-gray-dark">ERROR</strong>
+  						<a id="68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail-more" href="#68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail-more" data-toggle="collapse" data-target=".multi-collapse-68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail" class="collapse show multi-collapse-68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail" role="button" aria-expanded="true" aria-controls="68d695ca-f3bf-4e16-84c5-d24fddb054c6 68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail-more 68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail-less">More</a>
+  						<a id="68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail-less" href="#68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail-less" data-toggle="collapse" data-target=".multi-collapse-68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail" class="collapse multi-collapse-68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail" role="button" aria-expanded="false" aria-controls="68d695ca-f3bf-4e16-84c5-d24fddb054c6 68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail-more 68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail-less">Less</a>
+  					</div>
+					<i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i>
+					<br>
+  					<span class="d-block"><br><span class="d-block">The message subscriber receives a message from a publish-subscribe channel using a subscription filter.</span><br><span class="d-block">Intermediary Type: MessageRouter</span><br><span class="d-block">Message Router Type: MessageSubscriber</span></span>
+  				</div>
+  			</div>
+  			<div class="collapse text-muted pt-3 pl-3 multi-collapse-68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail border-bottom border-gray pb-2" id="multi-collapse-68d695ca-f3bf-4e16-84c5-d24fddb054c6-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>scenario</strong>: BiztlakAIS.ERROR</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>scenarioStep</strong>: messageSubscriber</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>configuration</strong>: </div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsSpName</strong>: ERROR</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsSpId</strong>: BiztlakAIS.ERROR</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsAckSendPortName</strong>: ERROR</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsAckSendPortId</strong>: BiztlakAIS.ERROR</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>routingProperties</strong>: </div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>btsAckSendPortName</strong>: ERROR</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-globe text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Web Connections:</strong> apic-topicsubscriberconnector-error-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-project-diagram text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Consumption Logic App:</strong> logic-aimtopicsubscriber-error-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-route text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Routing Slip:</strong> appcfg-routingslip-error-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="far fa-bookmark text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Configuration Entry:</strong> appcfg-routingslip-error-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-map-marker-alt text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Routing Properties:</strong> appcfg-routingproperties-error-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> apic-topicsubscriberconnector-error-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> logic-aimtopicsubscriber-error-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> appcfg-routingslip-error-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> appcfg-configurationentry-error-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> appcfg-routingproperties-error-dev-1oz97
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Links:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no links or references.</div></div></div></div><div><a name="resource-58fcd35a-069b-4bfd-8551-8258c5a8be70"></a><div class="media text-muted pt-3 border-bottom border-gray">
+  				<i class="fas fa-link text-success mr-2 ml-2 resource-icon"></i>
+  				<div class="media-body pb-3 mb-0 small lh-125">
+  					<div class="d-flex justify-content-between align-items-center w-100">
+  						<strong class="text-gray-dark">Trigger Channel</strong>
+  						<a id="58fcd35a-069b-4bfd-8551-8258c5a8be70-detail-more" href="#58fcd35a-069b-4bfd-8551-8258c5a8be70-detail-more" data-toggle="collapse" data-target=".multi-collapse-58fcd35a-069b-4bfd-8551-8258c5a8be70-detail" class="collapse show multi-collapse-58fcd35a-069b-4bfd-8551-8258c5a8be70-detail" role="button" aria-expanded="true" aria-controls="58fcd35a-069b-4bfd-8551-8258c5a8be70 58fcd35a-069b-4bfd-8551-8258c5a8be70-detail-more 58fcd35a-069b-4bfd-8551-8258c5a8be70-detail-less">More</a>
+  						<a id="58fcd35a-069b-4bfd-8551-8258c5a8be70-detail-less" href="#58fcd35a-069b-4bfd-8551-8258c5a8be70-detail-less" data-toggle="collapse" data-target=".multi-collapse-58fcd35a-069b-4bfd-8551-8258c5a8be70-detail" class="collapse multi-collapse-58fcd35a-069b-4bfd-8551-8258c5a8be70-detail" role="button" aria-expanded="false" aria-controls="58fcd35a-069b-4bfd-8551-8258c5a8be70 58fcd35a-069b-4bfd-8551-8258c5a8be70-detail-more 58fcd35a-069b-4bfd-8551-8258c5a8be70-detail-less">Less</a>
+  					</div>
+					<i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i>
+					<br>
+  					<span class="d-block"><br><span class="d-block">The trigger channel sends a message to a URL endpoint which triggers the Routing Slip Router intermediary.</span><br><span class="d-block">Channel Type: PointToPoint</span></span>
+  				</div>
+  			</div>
+  			<div class="collapse text-muted pt-3 pl-3 multi-collapse-58fcd35a-069b-4bfd-8551-8258c5a8be70-detail border-bottom border-gray pb-2" id="multi-collapse-58fcd35a-069b-4bfd-8551-8258c5a8be70-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>routeLabel</strong>: RouteFrom</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Resources:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no Azure resources associated with it.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Links:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no links or references.</div></div></div></div><div><a name="BiztlakAIS.BiztlakAISMigration.CrytpoReport"></a>
+<h6 class="border-bottom border-gray pb-2 mb-0">Scenario: BiztlakAIS.BiztlakAISMigration.CrytpoReport</h6></div><div><a name="resource-d8dec054-a6e5-458d-9ce9-b8d4b40eae4d"></a><div class="media text-muted pt-3 border-bottom border-gray">
+  				<i class="fab fa-connectdevelop text-success mr-2 ml-2 resource-icon"></i>
+  				<div class="media-body pb-3 mb-0 small lh-125">
+  					<div class="d-flex justify-content-between align-items-center w-100">
+  						<strong class="text-gray-dark">BiztlakAISMigration.CrytpoReport</strong>
+  						<a id="d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail-more" href="#d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail-more" data-toggle="collapse" data-target=".multi-collapse-d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail" class="collapse show multi-collapse-d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail" role="button" aria-expanded="true" aria-controls="d8dec054-a6e5-458d-9ce9-b8d4b40eae4d d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail-more d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail-less">More</a>
+  						<a id="d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail-less" href="#d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail-less" data-toggle="collapse" data-target=".multi-collapse-d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail" class="collapse multi-collapse-d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail" role="button" aria-expanded="false" aria-controls="d8dec054-a6e5-458d-9ce9-b8d4b40eae4d d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail-more d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail-less">Less</a>
+  					</div>
+					<i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="far fa-star text-success"></i><i class="far fa-star text-success"></i>
+					<br>
+  					<span class="d-block"><br><span class="d-block">BiztlakAISMigration.CrytpoReport</span><br><span class="d-block">Intermediary Type: MessageRouter</span><br><span class="d-block">Message Router Type: ProcessManager</span></span>
+  				</div>
+  			</div>
+  			<div class="collapse text-muted pt-3 pl-3 multi-collapse-d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail border-bottom border-gray pb-2" id="multi-collapse-d8dec054-a6e5-458d-9ce9-b8d4b40eae4d-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>typeName</strong>: BiztlakAISMigration.CrytpoReport</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>scenario</strong>: BiztlakAIS.BiztlakAISMigration.CrytpoReport</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>scenarioStep</strong>: BiztlakAISMigration.CrytpoReport</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>configuration</strong>: </div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-ellipsis-h text-black mr-2 ml-2 small"></i><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>failedMessageRouting</strong>: This item has no properties listed.</div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>routingProperties</strong>: </div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> apic-aimsbconnector-biztlakaismigration-crytporeport-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> appcfg-configurationentry-biztlakaismigration-crytporeport-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> logic-aimprocessmanager-biztlakaismigration-crytporeport-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> appcfg-routingslip-biztlakaismigration-crytporeport-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-globe text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Web Connections:</strong> apic-aimsbconnector-biztlakaismigration-crytporeport-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="far fa-bookmark text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Configuration Entry:</strong> appcfg-configurationentry-biztlakaismigration-crytporeport-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-project-diagram text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Consumption Logic App:</strong> logic-aimprocessmanager-biztlakaismigration-crytporeport-dev-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-route text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Routing Slip:</strong> appcfg-routingslip-biztlakaismigration-crytporeport-dev-1oz97
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Links:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no links or references.</div></div></div></div><div><a name="resource-cec1d0ee-80fd-4149-81ff-1113048cb134"></a><div class="media text-muted pt-3 border-bottom border-gray">
+  				<i class="fas fa-link text-success mr-2 ml-2 resource-icon"></i>
+  				<div class="media-body pb-3 mb-0 small lh-125">
+  					<div class="d-flex justify-content-between align-items-center w-100">
+  						<strong class="text-gray-dark">Message Box</strong>
+  						<a id="cec1d0ee-80fd-4149-81ff-1113048cb134-detail-more" href="#cec1d0ee-80fd-4149-81ff-1113048cb134-detail-more" data-toggle="collapse" data-target=".multi-collapse-cec1d0ee-80fd-4149-81ff-1113048cb134-detail" class="collapse show multi-collapse-cec1d0ee-80fd-4149-81ff-1113048cb134-detail" role="button" aria-expanded="true" aria-controls="cec1d0ee-80fd-4149-81ff-1113048cb134 cec1d0ee-80fd-4149-81ff-1113048cb134-detail-more cec1d0ee-80fd-4149-81ff-1113048cb134-detail-less">More</a>
+  						<a id="cec1d0ee-80fd-4149-81ff-1113048cb134-detail-less" href="#cec1d0ee-80fd-4149-81ff-1113048cb134-detail-less" data-toggle="collapse" data-target=".multi-collapse-cec1d0ee-80fd-4149-81ff-1113048cb134-detail" class="collapse multi-collapse-cec1d0ee-80fd-4149-81ff-1113048cb134-detail" role="button" aria-expanded="false" aria-controls="cec1d0ee-80fd-4149-81ff-1113048cb134 cec1d0ee-80fd-4149-81ff-1113048cb134-detail-more cec1d0ee-80fd-4149-81ff-1113048cb134-detail-less">Less</a>
+  					</div>
+					<i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i>
+					<br>
+  					<span class="d-block"><br><span class="d-block">The message box is represented by a publish-subscribe channel.</span><br><span class="d-block">Channel Type: PublishSubscribe</span></span>
+  				</div>
+  			</div>
+  			<div class="collapse text-muted pt-3 pl-3 multi-collapse-cec1d0ee-80fd-4149-81ff-1113048cb134-detail border-bottom border-gray pb-2" id="multi-collapse-cec1d0ee-80fd-4149-81ff-1113048cb134-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no properties listed.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Resources:</strong></div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-bus-alt text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Service Bus Namespace:</strong> sb-aimmsgbox-dev-eastus-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-bus-alt text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Service Bus Namespace:</strong> sb-aimmsgbox-dev-eastus-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> sb-aimmsgbox-dev-eastus-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> sb-aimmsgbox-dev-eastus-1oz97
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> sbs-sendport5
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-plus-square text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Service Bus Topic Subscription:</strong> sbs-sendport5
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> sbs-error
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-plus-square text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Service Bus Topic Subscription:</strong> sbs-error
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-scroll text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Deployment Script:</strong> sbs-biztlakaismigration-crytporeport
+</div></div><div><div class="text-gray-dark small align-middle">
+	<i class="fas fa-plus-square text-secondary small mr-2 ml-2 analysis-icon"></i>
+	<strong>Service Bus Topic Subscription:</strong> sbs-biztlakaismigration-crytporeport
+</div></div><div><div class="mt-2 text-gray-dark small"><strong>Links:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no links or references.</div></div></div></div><div><a name="resource-76bf4d72-285e-4e47-ab69-5666481ac196"></a><div class="media text-muted pt-3 border-bottom border-gray">
+  				<i class="fas fa-link text-success mr-2 ml-2 resource-icon"></i>
+  				<div class="media-body pb-3 mb-0 small lh-125">
+  					<div class="d-flex justify-content-between align-items-center w-100">
+  						<strong class="text-gray-dark">Trigger Channel</strong>
+  						<a id="76bf4d72-285e-4e47-ab69-5666481ac196-detail-more" href="#76bf4d72-285e-4e47-ab69-5666481ac196-detail-more" data-toggle="collapse" data-target=".multi-collapse-76bf4d72-285e-4e47-ab69-5666481ac196-detail" class="collapse show multi-collapse-76bf4d72-285e-4e47-ab69-5666481ac196-detail" role="button" aria-expanded="true" aria-controls="76bf4d72-285e-4e47-ab69-5666481ac196 76bf4d72-285e-4e47-ab69-5666481ac196-detail-more 76bf4d72-285e-4e47-ab69-5666481ac196-detail-less">More</a>
+  						<a id="76bf4d72-285e-4e47-ab69-5666481ac196-detail-less" href="#76bf4d72-285e-4e47-ab69-5666481ac196-detail-less" data-toggle="collapse" data-target=".multi-collapse-76bf4d72-285e-4e47-ab69-5666481ac196-detail" class="collapse multi-collapse-76bf4d72-285e-4e47-ab69-5666481ac196-detail" role="button" aria-expanded="false" aria-controls="76bf4d72-285e-4e47-ab69-5666481ac196 76bf4d72-285e-4e47-ab69-5666481ac196-detail-more 76bf4d72-285e-4e47-ab69-5666481ac196-detail-less">Less</a>
+  					</div>
+					<i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i><i class="fas fa-star text-success"></i>
+					<br>
+  					<span class="d-block"><br><span class="d-block">The trigger channel sends a message to a URL endpoint which triggers the Routing Slip Router intermediary.</span><br><span class="d-block">Channel Type: PointToPoint</span></span>
+  				</div>
+  			</div>
+  			<div class="collapse text-muted pt-3 pl-3 multi-collapse-76bf4d72-285e-4e47-ab69-5666481ac196-detail border-bottom border-gray pb-2" id="multi-collapse-76bf4d72-285e-4e47-ab69-5666481ac196-detail-content"><div><div class="mt-2 text-gray-dark small"><strong>Properties:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-circle text-black mr-2 ml-2 small"></i><strong>routeLabel</strong>: RouteFrom</div></div><div><div class="mt-2 text-gray-dark small"><strong>Messages:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>There are no analysis messages for this item.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Resources:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no Azure resources associated with it.</div></div><div><div class="mt-2 text-gray-dark small"><strong>Links:</strong></div></div><div><div class="text-gray-dark small align-middle"><i class="fas fa-info-circle text-info mr-2 ml-2 resource-icon analysis-icon"></i>This item has no links or references.</div></div></div></div></div>
+</div></div></div>
+    </main>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.7/holder.min.js" crossorigin="anonymous"></script>
+    <script type='text/javascript' src='https://kit.fontawesome.com/79f5499051.js?ver=2.6.2'></script>
+    <!-- embedded offcanvas script -->
+    <script language="javascript">
+        $(function () {
+            'use strict'
+
+            $('[data-toggle="offcanvas"]').on('click', function () {
+                $('.offcanvas-collapse').toggleClass('open')
+            })
+        })
+
+        // Expand / collapse all applications
+        $(document).ready(function () {
+            $(".expand-apps").on("click", function () {
+                console.log("Expanding / collapsing all application panels");
+                $(this).toggleClass("active");
+                if ($(this).hasClass("active")) {
+                    $('.application-more').collapse('hide');
+                    $('.application-less').collapse('show');
+                }
+                else {
+                    $('.application-more').collapse('show');
+                    $('.application-less').collapse('hide');
+                }
+            })
+            $(".expand-resources").on("click", function () {
+                console.log("Expanding / collapsing all resource panels");
+                $(this).toggleClass("active");
+                if ($(this).hasClass("active")) {
+                    $('#resource-container-content').find('.rc-more').collapse('hide');
+                    $('#resource-container-content').find('.rc-less').collapse('show');
+                }
+                else {
+                    $('#resource-container-content').find('.rc-more').collapse('show');
+                    $('#resource-container-content').find('.rc-less').collapse('hide');
+                }
+            })
+            $(".resource-link").on("click", function () {
+                console.log("Resource linking to associated resource");
+                // Get the resource refid from the class
+                var refId = this.id;
+                console.log(refId);
+                // Look up the section contents by the refId and check to see if it's already expanded
+                var applicationContents = $("#multi-collapse-" + refId + "-detail-content").closest(".application-section");
+
+                // If not expanded then expand
+                if (applicationContents) {
+                    var hasExpanded = applicationContents.hasClass("show");
+                    console.log("Check to see if application section is already expanded: " + hasExpanded);
+                    if (!hasExpanded) {
+                        console.log("Looking up application section so it can be expanded.");
+                        var applicationSection = applicationContents.closest(".application-container");
+                        console.log("Application section: " + applicationSection.prop("tagName"));
+                        applicationSection.find(".application-more").collapse("hide");
+                        applicationSection.find(".application-less").collapse("show");
+                    }
+                    setTimeout(function () {
+                        var element = document.getElementById(refId + "-detail-more");
+                        var offset = 60;
+                        var elementPosition = element.getBoundingClientRect().top;
+                        var position = elementPosition - offset;
+                        console.log("Scrolling to: " + position);
+                        window.scrollTo({
+                            top: position,
+                            behavior: "smooth"
+                        });
+                    }, 500);
+                }
+                else {
+                    console.log("Application contents not located.");
+                }
+                return false;
+            })
+        })
+    </script>
+</body>
+</html>
